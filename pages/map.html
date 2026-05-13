@@ -1,0 +1,39 @@
+<div class="panel" id="panel-map">
+      <div class="map-layout">
+        <div class="map-sidebar">
+          <div style="background:var(--black);color:var(--white);padding:11px 14px;font-family:var(--font-display);font-weight:800;font-size:13px;display:flex;align-items:center;gap:5px;flex-shrink:0">
+            🗺️ 원주 <span style="color:var(--green-main)">업체 지도</span>
+            <span style="font-size:9px;color:var(--gray);margin-left:auto;font-family:var(--font-body);font-weight:400">NAVER Maps</span>
+          </div>
+          <div class="map-search">
+            <div class="search-box"><span>🔍</span><input type="text" placeholder="업체명 검색..." oninput="filterBizList(this.value)"></div>
+          </div>
+          <div class="map-filters">
+            <div class="filter-chip active" onclick="toggleFilter(this,'all')">전체</div>
+            <div class="filter-chip" onclick="openFilterSheet('low')">⚠️ 재고부족</div>
+            <div class="filter-chip" onclick="openFilterSheet('waste')">♻️ 폐유대기</div>
+            <div class="filter-chip" onclick="openFilterSheet('action')">🚨 조치필요</div>
+          </div>
+          <!-- 최적경로 버튼 -->
+          <div style="padding:8px 10px;border-bottom:1px solid var(--gray-light);">
+            <button onclick="showOptimalRoute()" style="width:100%;background:var(--green-dark);color:#fff;border:none;border-radius:9px;padding:9px 12px;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;">
+              🗺️ 최적 수거·납품 경로 안내
+            </button>
+            <div id="routeInfoBar" style="display:none;margin-top:5px;font-size:10px;color:var(--green-dark);text-align:center;font-weight:600;"></div>
+          </div>
+          <!-- 데스크탑 업체 리스트 (모바일에서는 숨김) -->
+          <div class="business-list desktop-only" id="bizList"></div>
+        </div>
+        <div class="map-wrap">
+          <div id="naverMap"></div>
+          <div class="map-legend-box">
+            <div class="lt">📍 범례</div>
+            <div class="li"><div class="ld" style="background:#05C46B"></div>정상</div>
+            <div class="li"><div class="ld" style="background:#FF8C00"></div>폐유 수거 필요</div>
+            <div class="li"><div class="ld" style="background:var(--red-accent)"></div>재고 부족</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BILLING PANEL -->
