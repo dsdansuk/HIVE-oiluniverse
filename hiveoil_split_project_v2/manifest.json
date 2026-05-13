@@ -1,0 +1,21 @@
+{
+  "name": "식용유니버스 — HIVE",
+  "short_name": "식용유니버스",
+  "description": "식용유 자원순환 플랫폼 · 폐식용유에서 SAF·바이오디젤로",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0D2B1A",
+  "theme_color": "#05C46B",
+  "lang": "ko",
+  "icons": [
+    { "src": "icon-48.png",  "sizes": "48x48",   "type": "image/png", "purpose": "any" },
+    { "src": "icon-72.png",  "sizes": "72x72",   "type": "image/png", "purpose": "any" },
+    { "src": "icon-96.png",  "sizes": "96x96",   "type": "image/png", "purpose": "any" },
+    { "src": "icon-144.png", "sizes": "144x144", "type": "image/png", "purpose": "any" },
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "categories": ["business", "productivity", "utilities"]
+}

@@ -1,0 +1,95 @@
+<div class="panel" id="panel-owner-history" style="width:100%;overflow-y:auto;">
+      <div style="max-width:760px;margin:0 auto;padding:24px 18px 100px;">
+        
+        <!-- 헤더 -->
+        <div style="text-align:center;margin-bottom:22px;">
+          <div style="display:inline-block;background:linear-gradient(135deg,#1B5E20,#0FA366);padding:14px 22px;border-radius:14px;box-shadow:0 6px 18px rgba(13,43,26,0.2);">
+            <div style="font-family:var(--font-display);font-size:20px;font-weight:800;letter-spacing:-0.03em;color:#fff;">📋 내 운영 이력</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.85);margin-top:3px;">우리 업체의 발주·수거 이력 한눈에 보기</div>
+          </div>
+        </div>
+
+        <!-- KPI 요약 카드 (4개) -->
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px;">
+          <div style="background:#fff;border-radius:14px;padding:14px;text-align:center;box-shadow:var(--shadow);border:1.5px solid var(--green-light);">
+            <div style="font-size:22px;margin-bottom:4px;">🫙</div>
+            <div style="font-size:10px;color:var(--gray);font-weight:700;margin-bottom:4px;">식용유 사용</div>
+            <div style="font-family:var(--font-display);font-size:18px;font-weight:800;color:var(--green-dark);" id="ownerHistOilCans">0캔</div>
+            <div style="font-size:9px;color:var(--gray);margin-top:2px;" id="ownerHistOilAmt">0원</div>
+          </div>
+          <div style="background:#fff;border-radius:14px;padding:14px;text-align:center;box-shadow:var(--shadow);border:1.5px solid #FFCC80;">
+            <div style="font-size:22px;margin-bottom:4px;">♻️</div>
+            <div style="font-size:10px;color:var(--gray);font-weight:700;margin-bottom:4px;">폐유 판매</div>
+            <div style="font-family:var(--font-display);font-size:18px;font-weight:800;color:#D4621A;" id="ownerHistWasteCans">0캔</div>
+            <div style="font-size:9px;color:var(--gray);margin-top:2px;" id="ownerHistWasteAmt">+0원</div>
+          </div>
+          <div style="background:#fff;border-radius:14px;padding:14px;text-align:center;box-shadow:var(--shadow);border:1.5px solid #B3D4FC;">
+            <div style="font-size:22px;margin-bottom:4px;">📊</div>
+            <div style="font-size:10px;color:var(--gray);font-weight:700;margin-bottom:4px;">거래 건수</div>
+            <div style="font-family:var(--font-display);font-size:18px;font-weight:800;color:#185FA5;" id="ownerHistCount">0건</div>
+            <div style="font-size:9px;color:var(--gray);margin-top:2px;" id="ownerHistPeriod">전체</div>
+          </div>
+          <div style="background:linear-gradient(135deg,#0D2B1A,#1F4D30);border-radius:14px;padding:14px;text-align:center;box-shadow:var(--shadow);color:#fff;position:relative;overflow:hidden;">
+            <div style="position:absolute;top:-15px;right:-15px;width:60px;height:60px;background:rgba(255,235,59,0.1);border-radius:50%;"></div>
+            <div style="font-size:22px;margin-bottom:4px;position:relative;z-index:1;">⭐</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.8);font-weight:700;margin-bottom:4px;position:relative;z-index:1;">우리 업체 누적 ESG</div>
+            <div style="font-family:var(--font-display);font-size:18px;font-weight:800;color:#FFEB3B;position:relative;z-index:1;" id="ownerHistEsgPts">0 pts</div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.7);margin-top:2px;position:relative;z-index:1;" id="ownerHistEsgTier">🌱 새싹</div>
+          </div>
+        </div>
+
+        <!-- 🆕 v68: 빠른 기간 필터 -->
+        <div style="background:#fff;border-radius:12px;padding:10px;margin-bottom:10px;box-shadow:var(--shadow);">
+          <div style="font-size:10px;font-weight:700;color:#666;margin-bottom:8px;letter-spacing:0.05em;">📅 기간 필터</div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px;">
+            <button class="ohist-quick-btn active" onclick="setOwnerHistRange(this,'today')" style="padding:6px 12px;border:1.5px solid #0FA366;background:#0FA366;color:#fff;border-radius:16px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--font-body);">오늘</button>
+            <button class="ohist-quick-btn" onclick="setOwnerHistRange(this,'thisweek')" style="padding:6px 12px;border:1.5px solid #DDE8E1;background:#fff;color:#666;border-radius:16px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--font-body);">이번 주</button>
+            <button class="ohist-quick-btn" onclick="setOwnerHistRange(this,'thismonth')" style="padding:6px 12px;border:1.5px solid #DDE8E1;background:#fff;color:#666;border-radius:16px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--font-body);">이번 달</button>
+            <button class="ohist-quick-btn" onclick="setOwnerHistRange(this,'lastmonth')" style="padding:6px 12px;border:1.5px solid #DDE8E1;background:#fff;color:#666;border-radius:16px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--font-body);">지난 달</button>
+            <button class="ohist-quick-btn" onclick="setOwnerHistRange(this,'thisyear')" style="padding:6px 12px;border:1.5px solid #DDE8E1;background:#fff;color:#666;border-radius:16px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--font-body);">올해</button>
+            <button class="ohist-quick-btn" onclick="setOwnerHistRange(this,'all')" style="padding:6px 12px;border:1.5px solid #DDE8E1;background:#fff;color:#666;border-radius:16px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--font-body);">전체</button>
+          </div>
+          <!-- 직접 선택 -->
+          <div style="display:flex;gap:6px;align-items:center;">
+            <select id="ownerHistYearSel" onchange="onOwnerHistYearChange()" style="flex:1;height:36px;border:1.5px solid #DDE8E1;border-radius:8px;padding:0 10px;font-size:12px;font-family:var(--font-body);background:#fff;cursor:pointer;">
+              <option value="">📆 년도 선택</option>
+            </select>
+            <select id="ownerHistMonthSel" onchange="onOwnerHistMonthChange()" style="flex:1;height:36px;border:1.5px solid #DDE8E1;border-radius:8px;padding:0 10px;font-size:12px;font-family:var(--font-body);background:#fff;cursor:pointer;">
+              <option value="">전체 월</option>
+            </select>
+          </div>
+          <div id="ownerHistRangeLabel" style="font-size:10px;color:#0FA366;font-weight:700;margin-top:8px;text-align:center;">📍 오늘</div>
+        </div>
+
+        <!-- 그룹화 단위 -->
+        <div style="background:#fff;border-radius:12px;padding:8px;margin-bottom:14px;box-shadow:var(--shadow);">
+          <div style="font-size:10px;font-weight:700;color:#666;margin-bottom:6px;letter-spacing:0.05em;padding:0 4px;">📊 그룹화 단위</div>
+          <div style="display:flex;gap:5px;">
+            <button class="ohist-period-tab active" onclick="switchOwnerHistPeriod(this,'day')" style="flex:1;padding:9px;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;background:#0FA366;color:#fff;font-family:var(--font-body);transition:all 0.15s;">일별</button>
+            <button class="ohist-period-tab" onclick="switchOwnerHistPeriod(this,'week')" style="flex:1;padding:9px;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;background:transparent;color:#666;font-family:var(--font-body);transition:all 0.15s;">주별</button>
+            <button class="ohist-period-tab" onclick="switchOwnerHistPeriod(this,'month')" style="flex:1;padding:9px;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;background:transparent;color:#666;font-family:var(--font-body);transition:all 0.15s;">월별</button>
+            <button class="ohist-period-tab" onclick="switchOwnerHistPeriod(this,'year')" style="flex:1;padding:9px;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;background:transparent;color:#666;font-family:var(--font-body);transition:all 0.15s;">년별</button>
+          </div>
+        </div>
+
+        <!-- 종류 필터 -->
+        <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;">
+          <button class="ohist-type-chip active" onclick="switchOwnerHistType(this,'all')" style="padding:7px 14px;border:1.5px solid #0FA366;background:#0FA366;color:#fff;border-radius:18px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-body);">전체</button>
+          <button class="ohist-type-chip" onclick="switchOwnerHistType(this,'order')" style="padding:7px 14px;border:1.5px solid #DDE8E1;background:#fff;color:#666;border-radius:18px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-body);">🫙 식용유 발주</button>
+          <button class="ohist-type-chip" onclick="switchOwnerHistType(this,'waste')" style="padding:7px 14px;border:1.5px solid #DDE8E1;background:#fff;color:#666;border-radius:18px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-body);">♻️ 폐유 수거</button>
+        </div>
+
+        <!-- 이력 리스트 (그룹화) -->
+        <div id="ownerHistoryList" style="display:flex;flex-direction:column;gap:10px;">
+          <div style="background:#fff;border-radius:12px;padding:40px 20px;text-align:center;color:#999;">
+            <div style="font-size:36px;margin-bottom:8px;opacity:0.4;">📋</div>
+            <div style="font-size:13px;">데이터를 불러오는 중...</div>
+          </div>
+        </div>
+
+        <!-- 안내 -->
+        <div style="background:#FFF8E7;border:1px solid #FCD34D;border-radius:10px;padding:12px 14px;margin-top:18px;font-size:11px;color:#92400E;line-height:1.6;">
+          🔒 <strong>읽기 전용</strong>: 이력은 조회만 가능합니다. 데이터 무결성을 위해 수정·삭제는 관리자만 가능해요.
+        </div>
+      </div>
+    </div>
