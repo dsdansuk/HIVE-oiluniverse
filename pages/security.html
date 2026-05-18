@@ -1,0 +1,231 @@
+<div class="panel" id="panel-security" style="width:100%;overflow-y:auto;">
+<div style="background:linear-gradient(135deg,#0F2419,#1F4D30);padding:18px 26px;color:#fff;">
+<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+<div>
+<div style="font-family:var(--font-display);font-size:17px;font-weight:800;letter-spacing:-0.02em;">🔐 보안 설정</div>
+<div style="font-size:11px;color:#B8E5BB;margin-top:3px;">관리자 계정 · 드라이버 계정 통합 관리</div>
+</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;">
+<button class="security-tab security-tab-active" id="secTabAdmin" onclick="securityShowTab('admin')" style="background:#FFEB3B;color:#0F2419;border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:800;cursor:pointer;font-family:var(--font-body);">👤 관리자</button>
+<button class="security-tab" id="secTabDriver" onclick="securityShowTab('driver')" style="background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-body);">🚛 드라이버</button>
+<button class="security-tab" id="secTabFranchise" onclick="securityShowTab('franchise')" style="background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-body);">🏪 프랜차이즈</button>
+<button class="security-tab" id="secTabStatus" onclick="securityShowTab('status')" style="background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-body);">🛡️ 보안 상태</button>
+</div>
+</div>
+</div>
+<div style="padding:22px 26px;max-width:900px;margin:0 auto;">
+<!-- 안내 배너 -->
+<div style="background:#FFF8EE;border:1px solid #FFB74D;border-radius:10px;padding:12px 14px;margin-bottom:18px;font-size:12px;color:#7C5A00;line-height:1.6;">
+          🛡️ <strong>보안 정책</strong> — 비밀번호는 SHA-256 해시로 저장됩니다 · 5회 연속 실패 시 5분 잠금 · 4시간 후 자동 로그아웃
+        </div>
+<!-- 🆕 v145: 푸시 알림 진단 카드 -->
+<div class="card" style="margin-bottom:18px;">
+<div class="card-header" style="background:linear-gradient(135deg,#1565C0,#0D47A1);color:#fff;">
+<div class="card-title" style="color:#fff;">🔔 푸시 알림 설정</div>
+<span style="font-size:10.5px;color:#FFEB3B;background:rgba(255,255,255,0.15);padding:3px 9px;border-radius:6px;font-weight:600;">진단 + 재구독</span>
+</div>
+<div style="padding:18px 20px;">
+<div style="font-size:12px;color:var(--gray);margin-bottom:12px;line-height:1.6;">
+              알림이 안 오면 아래 [🔍 진단 실행] → 결과 확인 → [🔔 알림 켜기] 또는 [🔄 재구독] 클릭<br/>
+<span style="color:#E65100;font-weight:700;">📱 iOS는 반드시 홈화면 추가 후 그 아이콘으로 열어야 푸시 가능</span>
+</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">
+<button onclick="pushDiagnose(true)" style="background:#1565C0;color:#fff;border:none;border-radius:8px;padding:9px 15px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;">🔍 진단 실행</button>
+<button onclick="pushSubscribe().then(function(ok){ if(ok){ showToast('t1','✅ 구독 완료','이제 알림을 받을 수 있어요'); pushDiagnose(true); } })" style="background:#2E7D32;color:#fff;border:none;border-radius:8px;padding:9px 15px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;">🔔 알림 켜기</button>
+<button onclick="pushTest()" style="background:#fff;color:#1565C0;border:1.5px solid #1565C0;border-radius:8px;padding:9px 15px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;">🧪 테스트 알림</button>
+<button onclick="pushResubscribe()" style="background:#FFF8E1;color:#7A4F00;border:1.5px solid #FFB300;border-radius:8px;padding:9px 15px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;">🔄 재구독</button>
+</div>
+<div id="pushDiagBox" style="display:none;background:#FAFAFA;border:2px solid #DDD;border-radius:10px;padding:14px 16px;font-size:11.5px;line-height:1.6;color:#333;">
+<!-- 진단 결과 -->
+</div>
+</div>
+</div>
+<!-- ━━━━━━━━━━ 관리자 탭 ━━━━━━━━━━ -->
+<div class="security-tab-content" id="secTabContentAdmin">
+<div class="card">
+<div class="card-header" style="background:linear-gradient(135deg,#0F2419,#1F4D30);color:#fff;">
+<div class="card-title" style="color:#fff;">👤 관리자 계정</div>
+<span id="currentAdminIdLabel" style="font-size:10.5px;color:#FFEB3B;background:rgba(255,255,255,0.12);padding:3px 9px;border-radius:6px;font-weight:600;">로딩...</span>
+</div>
+<div style="padding:20px;">
+<div style="background:#FAFBF9;border:1px solid #E5E5E5;border-radius:10px;padding:16px;margin-bottom:14px;">
+<div style="font-size:12px;font-weight:700;color:#5C7466;margin-bottom:12px;display:flex;align-items:center;gap:6px;">
+                  ✏️ 아이디 / 비밀번호 변경
+                  <span style="font-size:10px;color:#888;font-weight:500;">변경할 항목만 입력하면 됩니다</span>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+<div>
+<div style="font-size:10.5px;font-weight:600;color:#5C7466;margin-bottom:5px;">새 아이디 <span style="color:#888;">(4자+ 영문/숫자)</span></div>
+<input class="form-input" id="changeAdminId" placeholder="비워두면 유지" style="font-size:13px;padding:10px 12px;"/>
+</div>
+<div>
+<div style="font-size:10.5px;font-weight:600;color:#5C7466;margin-bottom:5px;">새 비밀번호 <span style="color:#888;">(8자+ 영문+숫자)</span></div>
+<input class="form-input" id="changeAdminPwNew" placeholder="비워두면 유지" style="font-size:13px;padding:10px 12px;" type="password"/>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+<div>
+<div style="font-size:10.5px;font-weight:600;color:#C62828;margin-bottom:5px;">현재 비밀번호 <span style="color:#C62828;">*</span></div>
+<input class="form-input" id="changeAdminPwOld" placeholder="필수 — 본인 확인" style="font-size:13px;padding:10px 12px;border-color:#FFCDD2;" type="password"/>
+</div>
+<div>
+<div style="font-size:10.5px;font-weight:600;color:#5C7466;margin-bottom:5px;">새 비밀번호 확인</div>
+<input class="form-input" id="changeAdminPwConfirm" placeholder="비밀번호 변경 시 필수" style="font-size:13px;padding:10px 12px;" type="password"/>
+</div>
+</div>
+<button onclick="changeAdminCredentials()" style="width:100%;background:#0F2419;color:#FFEB3B;border:none;border-radius:10px;padding:12px;font-size:13px;font-weight:800;cursor:pointer;font-family:var(--font-body);">🔐 관리자 계정 변경</button>
+<div id="adminChangeStatus" style="font-size:11.5px;margin-top:10px;text-align:center;min-height:16px;"></div>
+</div>
+<div style="font-size:11px;color:#888;line-height:1.6;background:#fff;border-left:3px solid #FFB74D;padding:10px 12px;border-radius:6px;">
+                💡 <strong>분실 시</strong>: 해시는 단방향이라 복구 불가합니다. 잊지 않게 안전한 곳에 적어두세요!
+              </div>
+</div>
+</div>
+</div>
+<!-- ━━━━━━━━━━ 드라이버 탭 ━━━━━━━━━━ -->
+<div class="security-tab-content" id="secTabContentDriver" style="display:none;">
+<div class="card">
+<div class="card-header" style="background:linear-gradient(135deg,#185FA5,#0D47A1);color:#fff;">
+<div class="card-title" style="color:#fff;">🚛 드라이버 계정 관리</div>
+<span id="driverPendingBadge" style="display:none;background:var(--red-accent);color:#fff;border-radius:20px;padding:2px 8px;font-size:11px;font-weight:700;">승인대기</span>
+</div>
+<div style="padding:20px;">
+<div style="background:#EEF4FB;border:1px solid #BBDEFB;border-radius:10px;padding:16px;margin-bottom:16px;">
+<div style="font-size:13px;font-weight:800;color:#0D47A1;margin-bottom:12px;">➕ 새 드라이버 추가</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+<div>
+<div style="font-size:10.5px;font-weight:600;color:#5C7466;margin-bottom:4px;">이름 <span style="color:#C62828;">*</span></div>
+<input class="form-input" id="newDriverName" placeholder="예: 김기사" style="font-size:13px;padding:10px 12px;"/>
+</div>
+<div>
+<div style="font-size:10.5px;font-weight:600;color:#5C7466;margin-bottom:4px;">전화번호</div>
+<input class="form-input" id="newDriverPhone" maxlength="13" placeholder="010-1234-5678" style="font-size:13px;padding:10px 12px;"/>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+<div>
+<div style="font-size:10.5px;font-weight:600;color:#5C7466;margin-bottom:4px;">아이디 <span style="color:#C62828;">*</span></div>
+<input class="form-input" id="newDriverId" placeholder="4자+ 영문/숫자/_/-" style="font-size:13px;padding:10px 12px;"/>
+</div>
+<div>
+<div style="font-size:10.5px;font-weight:600;color:#5C7466;margin-bottom:4px;">초기 비밀번호 <span style="color:#C62828;">*</span></div>
+<input class="form-input" id="newDriverInitPw" placeholder="8자+ 영문+숫자" style="font-size:13px;padding:10px 12px;" type="text"/>
+</div>
+</div>
+<button onclick="adminAddDriver()" style="width:100%;background:#185FA5;color:#fff;border:none;border-radius:10px;padding:11px;font-size:13px;font-weight:800;cursor:pointer;font-family:var(--font-body);">✅ 드라이버 추가</button>
+<div id="driverAddStatus" style="font-size:11.5px;margin-top:9px;text-align:center;min-height:16px;"></div>
+<div style="font-size:10.5px;color:#5C7466;margin-top:9px;line-height:1.5;background:rgba(255,255,255,0.6);border-radius:6px;padding:8px 10px;">
+                  💡 추가 즉시 로그인 가능합니다. 드라이버에게 ID + 초기 비밀번호를 전달해주세요. <br/>
+                  드라이버는 첫 로그인 후에도 비밀번호를 본인이 바꿀 수는 없습니다 — 관리자가 [🔑 PW] 버튼으로 리셋해주세요.
+                </div>
+</div>
+<div style="font-size:12px;font-weight:700;color:#0F2419;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;">
+<span>📋 등록 드라이버 목록</span>
+<button onclick="renderDriverAccounts()" style="background:transparent;border:1px solid #DDD;border-radius:6px;padding:5px 11px;font-size:11px;font-weight:600;cursor:pointer;color:#5C7466;font-family:var(--font-body);">🔄 새로고침</button>
+</div>
+<div id="driverAccountsList">
+<div style="text-align:center;padding:24px;color:var(--gray);font-size:12px;">등록된 드라이버가 없어요</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ━━━━━━━━━━ 🏪 프랜차이즈 본사 탭 (v126) ━━━━━━━━━━ -->
+<div class="security-tab-content" id="secTabContentFranchise" style="display:none;">
+<!-- 새 브랜드 등록 카드 -->
+<div class="card" style="margin-bottom:16px;">
+<div class="card-header" style="background:linear-gradient(135deg,#0F2419,#1F4D30);color:#fff;">
+<div class="card-title" style="color:#fff;">➕ 새 브랜드 + 본사 계정 등록</div>
+<span style="font-size:10.5px;color:#FFEB3B;background:rgba(255,255,255,0.12);padding:3px 9px;border-radius:6px;font-weight:600;">관리자 전용</span>
+</div>
+<div style="padding:20px;">
+<div style="background:#FFF8EE;border:1px solid #FFB74D;border-radius:8px;padding:10px 12px;margin-bottom:14px;font-size:11.5px;color:#7C5A00;line-height:1.6;">
+                💡 브랜드 정보와 본사 로그인 계정을 한 번에 발급합니다. 본사 ID/비밀번호는 발급 후 <b>식용유 첫 납품 시 직접 전달</b>해주세요.
+              </div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:12px;">
+<div>
+<div style="font-size:10.5px;font-weight:700;color:#5C7466;margin-bottom:5px;">브랜드명 <span style="color:#C62828;">*</span></div>
+<input class="form-input" id="frBrandName" placeholder="예: 봉봉프차" style="font-size:13px;padding:10px 12px;"/>
+</div>
+<div>
+<div style="font-size:10.5px;font-weight:700;color:#5C7466;margin-bottom:5px;">담당자명</div>
+<input class="form-input" id="frBrandContactName" placeholder="홍길동" style="font-size:13px;padding:10px 12px;"/>
+</div>
+<div>
+<div style="font-size:10.5px;font-weight:700;color:#5C7466;margin-bottom:5px;">담당자 연락처</div>
+<input class="form-input" id="frBrandContactPhone" placeholder="010-1234-5678" style="font-size:13px;padding:10px 12px;"/>
+</div>
+<div>
+<div style="font-size:10.5px;font-weight:700;color:#5C7466;margin-bottom:5px;">담당자 이메일</div>
+<input class="form-input" id="frBrandContactEmail" placeholder="hq@brand.com" style="font-size:13px;padding:10px 12px;"/>
+</div>
+<div>
+<div style="font-size:10.5px;font-weight:700;color:#5C7466;margin-bottom:5px;">계약 시작일</div>
+<input class="form-input" id="frBrandStartDate" style="font-size:13px;padding:10px 12px;" type="date"/>
+</div>
+<div>
+<div style="font-size:10.5px;font-weight:700;color:#5C7466;margin-bottom:5px;">메모</div>
+<input class="form-input" id="frBrandNotes" placeholder="협업 내용 메모" style="font-size:13px;padding:10px 12px;"/>
+</div>
+</div>
+<div style="background:#EDF7F1;border:1px solid #3D9E6E;border-radius:10px;padding:14px 16px;margin-top:8px;">
+<div style="font-size:12px;font-weight:800;color:#1F6B40;margin-bottom:10px;display:flex;align-items:center;gap:6px;">🔐 본사 로그인 계정</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;">
+<div>
+<div style="font-size:10.5px;font-weight:700;color:#1F6B40;margin-bottom:5px;">로그인 아이디 <span style="color:#C62828;">*</span></div>
+<input class="form-input" id="frHqLoginId" placeholder="4자+ 영문/숫자 (예: bongbong_hq)" style="font-size:13px;padding:10px 12px;"/>
+</div>
+<div>
+<div style="font-size:10.5px;font-weight:700;color:#1F6B40;margin-bottom:5px;">초기 비밀번호 <span style="color:#C62828;">*</span></div>
+<input class="form-input" id="frHqLoginPw" placeholder="8자+ 영문+숫자" style="font-size:13px;padding:10px 12px;"/>
+</div>
+</div>
+</div>
+<button onclick="frAdminCreateBrand()" style="width:100%;margin-top:14px;background:#0F2419;color:#FFEB3B;border:none;border-radius:10px;padding:13px;font-size:13px;font-weight:800;cursor:pointer;font-family:var(--font-body);">✅ 브랜드 + 본사 계정 생성</button>
+<div id="frBrandCreateStatus" style="font-size:11.5px;margin-top:10px;text-align:center;min-height:16px;"></div>
+</div>
+</div>
+<!-- 등록된 본사 계정 리스트 -->
+<div class="card">
+<div class="card-header" style="background:#FAFBF9;">
+<div class="card-title">🔑 본사 계정 목록</div>
+<button onclick="securityRefreshFranchise()" style="background:#EDF7F1;color:#1F6B40;border:1px solid #3D9E6E;border-radius:6px;padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;">🔄 새로고침</button>
+</div>
+<div style="padding:18px 20px;">
+<div id="securityFranchiseList"><!-- JS 렌더 --></div>
+</div>
+</div>
+</div>
+<!-- ━━━━━━━━━━ 보안 상태 탭 ━━━━━━━━━━ -->
+<div class="security-tab-content" id="secTabContentStatus" style="display:none;">
+<div class="card">
+<div class="card-header" style="background:linear-gradient(135deg,#5E35B1,#3F1B81);color:#fff;">
+<div class="card-title" style="color:#fff;">🛡️ 보안 상태</div>
+<div style="font-size:10px;color:#E1BEE7;">실시간 로그인 상태 + 잠금 관리</div>
+</div>
+<div style="padding:20px;">
+<div style="background:#fff;border:1px solid #E5E5E5;border-radius:10px;padding:14px 16px;margin-bottom:14px;">
+<div style="font-size:12px;font-weight:700;color:#0F2419;margin-bottom:6px;">📊 현재 상태</div>
+<div id="securityStatusText" style="font-size:12px;color:#5C7466;line-height:1.6;">로딩 중...</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+<div style="background:#FFF3E0;border:1px solid #FFB74D;border-radius:10px;padding:14px;">
+<div style="font-size:11.5px;font-weight:700;color:#E65100;margin-bottom:5px;">🔒 관리자 잠금</div>
+<div id="adminLockInfo" style="font-size:11px;color:#7C5A00;line-height:1.5;">없음</div>
+</div>
+<div style="background:#E3F2FD;border:1px solid #90CAF9;border-radius:10px;padding:14px;">
+<div style="font-size:11.5px;font-weight:700;color:#1565C0;margin-bottom:5px;">🔒 드라이버 잠금</div>
+<div id="driverLockInfo" style="font-size:11px;color:#0D47A1;line-height:1.5;">없음</div>
+</div>
+</div>
+<button onclick="resetLoginLocks()" style="width:100%;background:#FFEBEE;color:#C62828;border:1px solid #FFCDD2;border-radius:10px;padding:11px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:var(--font-body);margin-bottom:10px;">🔓 모든 잠금 즉시 해제</button>
+<div style="background:#FAFBF9;border-left:3px solid var(--green-main);border-radius:6px;padding:11px 13px;font-size:11px;color:#5C7466;line-height:1.6;">
+<strong>잠금 작동 방식</strong><br/>
+                • 같은 계정에 5회 연속 실패 → 5분 자동 잠금<br/>
+                • 잠금 중에는 올바른 비밀번호도 통과되지 않습니다<br/>
+                • 5분 후 자동 해제 또는 위 버튼으로 즉시 해제 가능
+              </div>
+</div>
+</div>
+</div>
+</div>
+</div>

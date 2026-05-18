@@ -1,0 +1,315 @@
+<div class="panel active" id="panel-owner-dash" style="overflow-y:auto;width:100%;">
+<div style="max-width:680px;margin:0 auto;padding:28px 20px 100px;">
+<!-- 🆕 공지사항 카드 (관리자가 비활성화 가능) -->
+<div id="ownerDashNoticeCard" style="display:none;background:linear-gradient(135deg,#FFF3E0,#FFE0B2);border-left:5px solid #FF9500;border-radius:12px;padding:16px 20px;margin-bottom:20px;box-shadow:0 4px 12px rgba(255,149,0,0.15);">
+<div style="display:flex;align-items:flex-start;gap:12px;">
+<div style="font-size:24px;flex-shrink:0;">📢</div>
+<div style="flex:1;min-width:0;">
+<div id="ownerDashNoticeTitle" style="font-family:var(--font-display);font-size:15px;font-weight:800;color:#E65100;margin-bottom:6px;letter-spacing:-0.02em;">공지사항</div>
+<div id="ownerDashNoticeBody" style="font-size:13px;color:#5D4037;line-height:1.6;white-space:pre-wrap;"></div>
+</div>
+</div>
+</div>
+<!-- 🆕 v145: 최근 발주·수거 상태 (업주가 신청 확인용) -->
+<div id="ownerRecentRequestCard" style="display:none;background:#fff;border:2px solid var(--green-main);border-radius:12px;padding:0;margin-bottom:20px;box-shadow:var(--shadow);overflow:hidden;">
+<div style="background:linear-gradient(135deg,#1F4D30,#0D2B1A);color:#fff;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;">
+<div>
+<div style="font-size:13px;font-weight:800;font-family:var(--font-display);">📬 내 신청 현황</div>
+<div style="font-size:10.5px;opacity:0.85;margin-top:2px;">발주·수거 신청 후 처리 상태</div>
+</div>
+<span id="ownerRecentRequestBadge" style="background:#FFEB3B;color:#0F2419;font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:10px;">0건</span>
+</div>
+<div id="ownerRecentRequestList" style="padding:8px;">
+<!-- JS 렌더 -->
+</div>
+</div>
+<!-- 헤더 브랜딩 (VA5 아이콘) -->
+<div style="text-align:center;margin-bottom:24px;">
+<div style="display:inline-block;margin-bottom:14px;">
+<svg height="80" style="display:block;border-radius:18px;box-shadow:0 6px 18px rgba(13,43,26,0.25);" viewbox="0 0 512 512" width="80">
+<defs>
+<lineargradient id="logoBg" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0" stop-color="#0D2B1A"></stop>
+<stop offset="1" stop-color="#1F4D30"></stop>
+</lineargradient>
+</defs>
+<rect fill="url(#logoBg)" height="512" rx="115" ry="115" width="512"></rect>
+<circle cx="100" cy="110" fill="#FFFFFF" opacity="0.6" r="2.5"></circle>
+<circle cx="420" cy="100" fill="#FFFFFF" opacity="0.5" r="2"></circle>
+<circle cx="430" cy="400" fill="#FFFFFF" opacity="0.6" r="2.5"></circle>
+<circle cx="90" cy="410" fill="#FFFFFF" opacity="0.5" r="2"></circle>
+<g transform="translate(256, 256)">
+<circle fill="#10D67A" r="120"></circle>
+<ellipse cx="-35" cy="-25" fill="#0D2B1A" opacity="0.4" rx="40" ry="28"></ellipse>
+<ellipse cx="40" cy="35" fill="#0D2B1A" opacity="0.4" rx="28" ry="22"></ellipse>
+<ellipse cx="-15" cy="50" fill="#0D2B1A" opacity="0.4" rx="22" ry="14"></ellipse>
+<ellipse cx="55" cy="-30" fill="#0D2B1A" opacity="0.4" rx="15" ry="10"></ellipse>
+</g>
+<g transform="translate(256, 256)">
+<ellipse cx="0" cy="0" fill="none" rx="172" ry="58" stroke="#F4D35E" stroke-width="7"></ellipse>
+<ellipse cx="0" cy="0" fill="none" rx="172" ry="58" stroke="#F4D35E" stroke-width="7" transform="rotate(60)"></ellipse>
+<ellipse cx="0" cy="0" fill="none" rx="172" ry="58" stroke="#F4D35E" stroke-width="7" transform="rotate(-60)"></ellipse>
+</g>
+</svg>
+</div>
+<div style="font-family:var(--font-display);font-size:26px;font-weight:800;letter-spacing:-0.04em;color:var(--black);">식용유<span style="color:var(--green-main);">니버스</span></div>
+<div style="font-size:13px;color:var(--gray);margin-top:6px;">식용유 자원순환의 새로운 우주</div>
+<div id="ownerDashGreeting" style="margin-top:12px;background:var(--green-pale);border-radius:12px;padding:10px 18px;font-size:13px;font-weight:600;color:var(--green-dark);display:inline-block;">
+            👋 업체를 선택하거나 QR을 스캔해주세요
+          </div>
+</div>
+<!-- 🌌 심볼 의미 카드 -->
+<div id="symbolMeaningCard" style="background:linear-gradient(135deg,#0D2B1A 0%,#1F4D30 100%);border-radius:18px;padding:22px 24px;margin-bottom:24px;color:#fff;position:relative;overflow:hidden;box-shadow:0 6px 24px rgba(13,43,26,0.18);">
+<div style="position:absolute;top:-30px;right:-30px;width:140px;height:140px;opacity:0.18;">
+<svg height="100%" viewbox="0 0 200 200" width="100%">
+<circle cx="100" cy="100" fill="#10D67A" r="42"></circle>
+<ellipse cx="100" cy="100" fill="none" rx="68" ry="22" stroke="#F4D35E" stroke-width="3"></ellipse>
+<ellipse cx="100" cy="100" fill="none" rx="68" ry="22" stroke="#F4D35E" stroke-width="3" transform="rotate(60 100 100)"></ellipse>
+<ellipse cx="100" cy="100" fill="none" rx="68" ry="22" stroke="#F4D35E" stroke-width="3" transform="rotate(-60 100 100)"></ellipse>
+</svg>
+</div>
+<div style="position:relative;z-index:2;">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+<span style="font-size:11px;letter-spacing:0.18em;color:#F4D35E;font-weight:700;">OUR SYMBOL</span>
+<span style="height:1px;flex:1;background:rgba(244,211,94,0.3);"></span>
+</div>
+<div style="font-family:var(--font-display);font-size:18px;font-weight:800;line-height:1.45;letter-spacing:-0.02em;margin-bottom:10px;">
+              한 방울의 식용유가<br/>
+<span style="color:#F4D35E;">우주의 모든 자원</span>으로 다시 태어납니다
+            </div>
+<div style="font-size:12px;line-height:1.7;color:rgba(255,255,255,0.78);font-weight:400;">
+              버려진 폐식용유는 사라지지 않고, 끝없이 순환하며 새로운 가치로 환생합니다.
+              바이오디젤과 SAF 항공유, 그리고 ESG 가치까지 — 식용유니버스는
+              자원의 영속을 그리는 우리의 약속입니다.
+            </div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.12);">
+<div style="text-align:center;">
+<div style="font-size:18px;margin-bottom:2px;">🌍</div>
+<div style="font-size:10px;color:#10D67A;font-weight:700;letter-spacing:0.04em;">GREEN PLANET</div>
+<div style="font-size:10px;color:rgba(255,255,255,0.6);margin-top:2px;">탄소중립</div>
+</div>
+<div style="text-align:center;">
+<div style="font-size:18px;margin-bottom:2px;">♻️</div>
+<div style="font-size:10px;color:#F4D35E;font-weight:700;letter-spacing:0.04em;">INFINITE LOOP</div>
+<div style="font-size:10px;color:rgba(255,255,255,0.6);margin-top:2px;">무한 순환</div>
+</div>
+<div style="text-align:center;">
+<div style="font-size:18px;margin-bottom:2px;">✈️</div>
+<div style="font-size:10px;color:#F4D35E;font-weight:700;letter-spacing:0.04em;">TO THE SKY</div>
+<div style="font-size:10px;color:rgba(255,255,255,0.6);margin-top:2px;">SAF·바이오디젤</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 업체 현황 카드 (로그인/QR 후 표시) -->
+<div id="ownerDashBizCard" style="display:none;background:linear-gradient(135deg,#1F4D30,#05C46B);border-radius:var(--radius);padding:20px 22px;margin-bottom:20px;color:#fff;box-shadow:0 4px 20px rgba(5,196,107,0.25);">
+<div style="font-size:11px;opacity:0.7;margin-bottom:4px;">현재 업체</div>
+<div id="ownerDashBizName" style="font-family:var(--font-display);font-size:22px;font-weight:800;letter-spacing:-0.03em;margin-bottom:14px;">—</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+<div style="background:rgba(255,255,255,0.15);border-radius:10px;padding:12px;text-align:center;">
+<div style="font-size:10px;opacity:0.8;margin-bottom:4px;">🫙 새식용유</div>
+<div id="ownerDashNewOil" style="font-family:var(--font-display);font-size:24px;font-weight:800;">—</div>
+<div style="font-size:10px;opacity:0.6;">캔 보유</div>
+</div>
+<div style="background:rgba(255,255,255,0.15);border-radius:10px;padding:12px;text-align:center;">
+<div style="font-size:10px;opacity:0.8;margin-bottom:4px;">♻️ 폐식용유</div>
+<div id="ownerDashWasteOil" style="font-family:var(--font-display);font-size:24px;font-weight:800;">—</div>
+<div style="font-size:10px;opacity:0.6;">캔 대기</div>
+</div>
+<div style="background:rgba(255,255,255,0.15);border-radius:10px;padding:12px;text-align:center;">
+<div style="font-size:10px;opacity:0.8;margin-bottom:4px;">⭐ ESG</div>
+<div id="ownerDashEsg" style="font-family:var(--font-display);font-size:24px;font-weight:800;">—</div>
+<div style="font-size:10px;opacity:0.6;">포인트</div>
+</div>
+</div>
+</div>
+<!-- 빠른 실행 -->
+<div style="margin-bottom:24px;">
+<div style="font-size:13px;font-weight:700;margin-bottom:12px;color:var(--gray);">빠른 실행</div>
+<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;">
+<button onclick="requireLoginThen('qr')" onmouseout="this.style.borderColor='var(--gray-light)';this.style.transform=''" onmouseover="this.style.borderColor='var(--green-main)';this.style.transform='translateY(-2px)'" style="background:var(--white);border:1.5px solid var(--gray-light);border-radius:var(--radius);padding:18px 12px;cursor:pointer;transition:all 0.16s;font-family:var(--font-body);">
+<div style="font-size:26px;margin-bottom:6px;">📱</div>
+<div style="font-size:13px;font-weight:800;color:var(--black);">재고 입력</div>
+<div style="font-size:10px;color:var(--gray);margin-top:3px;">현재 재고 업데이트</div>
+</button>
+<button onclick="requireLoginThen('waste')" onmouseout="this.style.borderColor='var(--gray-light)';this.style.transform=''" onmouseover="this.style.borderColor='var(--red-accent)';this.style.transform='translateY(-2px)'" style="background:var(--white);border:1.5px solid var(--gray-light);border-radius:var(--radius);padding:18px 12px;cursor:pointer;transition:all 0.16s;font-family:var(--font-body);">
+<div style="font-size:26px;margin-bottom:6px;">♻️</div>
+<div style="font-size:13px;font-weight:800;color:var(--black);">수거 신청</div>
+<div style="font-size:10px;color:var(--gray);margin-top:3px;">폐유 수거 요청</div>
+</button>
+<button onclick="requireLoginThen('order')" onmouseout="this.style.borderColor='var(--gray-light)';this.style.transform=''" onmouseover="this.style.borderColor='var(--green-main)';this.style.transform='translateY(-2px)'" style="background:var(--white);border:1.5px solid var(--gray-light);border-radius:var(--radius);padding:18px 12px;cursor:pointer;transition:all 0.16s;font-family:var(--font-body);">
+<div style="font-size:26px;margin-bottom:6px;">🫙</div>
+<div style="font-size:13px;font-weight:800;color:var(--black);">발주 신청</div>
+<div style="font-size:10px;color:var(--gray);margin-top:3px;">식용유 추가 주문</div>
+</button>
+<button onclick="requireLoginThen('owner-history')" onmouseout="this.style.borderColor='var(--green-light)';this.style.transform=''" onmouseover="this.style.borderColor='var(--green-main)';this.style.transform='translateY(-2px)'" style="background:linear-gradient(135deg,#F0FBF5,#E8F5E9);border:1.5px solid var(--green-light);border-radius:var(--radius);padding:18px 12px;cursor:pointer;transition:all 0.16s;font-family:var(--font-body);">
+<div style="font-size:26px;margin-bottom:6px;">📋</div>
+<div style="font-size:13px;font-weight:800;color:var(--black);">내 운영 이력</div>
+<div style="font-size:10px;color:var(--gray);margin-top:3px;">일·주·월별 조회</div>
+</button>
+</div>
+</div>
+<!-- 🆕 ESG 포인트 안내 카드 -->
+<div class="card" style="margin-bottom:16px;background:linear-gradient(135deg,#0FA366,#10D67A);color:#fff;border:none;">
+<div style="padding:18px 20px;">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+<div style="font-size:28px;">🎁</div>
+<div>
+<div style="font-family:var(--font-display);font-size:17px;font-weight:800;letter-spacing:-0.02em;">ESG 포인트 적립 안내</div>
+<div style="font-size:11px;opacity:0.9;margin-top:2px;">친환경 활동에 참여하시면 포인트가 쌓여요</div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px;">
+<div style="background:rgba(255,255,255,0.2);border-radius:10px;padding:12px;text-align:center;">
+<div style="font-size:18px;margin-bottom:4px;">🛒</div>
+<div style="font-size:11px;opacity:0.9;">식용유 구매 시</div>
+<div id="ownerDashPurchaseRate" style="font-family:var(--font-display);font-size:22px;font-weight:800;margin-top:2px;">5%</div>
+<div style="font-size:9px;opacity:0.75;margin-top:3px;">※ 오뚜기·해표 제외</div>
+</div>
+<div style="background:rgba(255,255,255,0.2);border-radius:10px;padding:12px;text-align:center;">
+<div style="font-size:18px;margin-bottom:4px;">♻️</div>
+<div style="font-size:11px;opacity:0.9;">폐유 수거 시</div>
+<div id="ownerDashWasteRate" style="font-family:var(--font-display);font-size:22px;font-weight:800;margin-top:2px;">5%</div>
+</div>
+</div>
+<div style="background:rgba(255,255,255,0.15);border-radius:10px;padding:11px 13px;font-size:11px;line-height:1.5;">
+              💡 <strong>적립된 포인트</strong>는 다음 식용유 구매 시 차감되어 사용 가능합니다.<br/>
+              📊 <strong>CO₂ 절감량</strong>은 폐유 1L = 약 0.7kg CO₂ 감소 기준으로 계산돼요.
+            </div>
+</div>
+</div>
+<!-- 🆕 월간 CO2 절감 랭킹 안내 (v114: 로그인 시에만 표시) -->
+<div class="card" id="ownerDashRankingCard" style="margin-bottom:16px;background:linear-gradient(135deg,#FFA726,#E65100);color:#fff;border:none;display:none;">
+<div style="padding:18px 20px;">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+<div style="font-size:28px;">🏆</div>
+<div>
+<div style="font-family:var(--font-display);font-size:17px;font-weight:800;letter-spacing:-0.02em;">월간 CO₂ 절감 랭킹</div>
+<div style="font-size:11px;opacity:0.9;margin-top:2px;">매월 1~3등 업체에 특별 혜택!</div>
+</div>
+</div>
+<div style="background:rgba(255,255,255,0.18);border-radius:10px;padding:12px 14px;font-size:12px;line-height:1.6;margin-bottom:10px;">
+              🥇 1등: 다음 달 식용유 1캔 무료<br/>
+              🥈 2등: ESG 포인트 5,000pt 추가 적립<br/>
+              🥉 3등: ESG 포인트 3,000pt 추가 적립
+            </div>
+<button onclick="showPanel('esg', null)" style="width:100%;background:rgba(255,255,255,0.95);color:#E65100;border:none;border-radius:10px;padding:11px;font-size:13px;font-weight:800;cursor:pointer;font-family:var(--font-body);">
+              🏅 우리 업체 랭킹 확인하기 →
+            </button>
+</div>
+</div>
+<!-- 이번 주 시세 -->
+<div class="card" style="margin-bottom:16px;">
+<div class="card-header" style="background:#0D0D0D;">
+<div class="card-title" style="color:#fff;">💹 이번 주 시세</div>
+</div>
+<div style="padding:14px 18px;display:grid;grid-template-columns:repeat(2,1fr);gap:8px;">
+<div style="background:var(--green-pale);border-radius:10px;padding:12px;text-align:center;">
+<div style="font-size:11px;color:var(--gray);margin-bottom:4px;">🫘 대두유 18L</div>
+<div id="odSoy" style="font-family:var(--font-display);font-size:18px;font-weight:800;color:var(--green-dark);">—</div>
+</div>
+<div style="background:var(--green-pale);border-radius:10px;padding:12px;text-align:center;">
+<div style="font-size:11px;color:var(--gray);margin-bottom:4px;">🌿 카놀라유 18L</div>
+<div id="odCanola" style="font-family:var(--font-display);font-size:18px;font-weight:800;color:var(--green-dark);">—</div>
+</div>
+<div style="background:var(--green-pale);border-radius:10px;padding:12px;text-align:center;">
+<div style="font-size:11px;color:var(--gray);margin-bottom:4px;">🌽 옥수수유 18L</div>
+<div id="odCorn" style="font-family:var(--font-display);font-size:18px;font-weight:800;color:var(--green-dark);">—</div>
+</div>
+<div style="background:#FFF8F0;border-radius:10px;padding:12px;text-align:center;">
+<div style="font-size:11px;color:var(--gray);margin-bottom:4px;">♻️ 폐유 수거</div>
+<div id="odWaste" style="font-family:var(--font-display);font-size:18px;font-weight:800;color:#D4621A;">—</div>
+</div>
+</div>
+</div>
+<!-- 식용유니버스 소개 -->
+<div style="background:linear-gradient(135deg,#0a2e1a,#1F4D30);border-radius:var(--radius);padding:22px 24px;color:#fff;margin-bottom:14px;">
+<div style="font-family:var(--font-display);font-size:16px;font-weight:800;margin-bottom:12px;">🫙 식용유니버스란?</div>
+<div style="font-size:12px;line-height:1.9;color:rgba(255,255,255,0.85);">
+            원주 지역 외식업 사장님들을 위한<br/>
+<strong style="color:#7FFFD4;">식용유 정기 납품 + 폐유 수거</strong> 통합 서비스예요.<br/><br/>
+            🫙 <strong style="color:#fff;">정기 납품</strong> — 재고 2캔 이하 시 자동 발주<br/>
+            ♻️ <strong style="color:#fff;">폐유 수거</strong> — 신청 즉시 담당자 배정<br/>
+            🌿 <strong style="color:#fff;">ESG 포인트</strong> — 수거할 때마다 포인트 적립<br/>
+            📱 <strong style="color:#fff;">QR 한 번</strong> — 재고 관리부터 수거 신청까지<br/><br/>
+<div style="margin-top:4px;padding:10px 12px;background:rgba(127,255,212,0.1);border-left:3px solid #7FFFD4;border-radius:6px;font-size:11px;line-height:1.8;">
+              ✅ <strong style="color:#7FFFD4;">투명한 가격, 공정한 거래</strong>
+</div>
+</div>
+</div>
+<!-- 폐유 행방 -->
+<div class="card" style="margin-bottom:14px;overflow:hidden;">
+<div style="background:#1C2B22;padding:14px 18px;">
+<div style="font-family:var(--font-display);font-size:14px;font-weight:800;color:#fff;">♻️ 수거된 폐유, 어디로 갈까요?</div>
+</div>
+<div style="padding:4px 0;">
+<div style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px dashed var(--gray-light);">
+<div style="width:34px;height:34px;background:var(--green-pale);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;">🍳</div>
+<div><div style="font-size:13px;font-weight:700;">직접 수거</div><div style="font-size:11px;color:var(--gray);margin-top:1px;">전용 용기에 담아 담당자가 직접 수거</div></div>
+</div>
+<div style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px dashed var(--gray-light);">
+<div style="width:34px;height:34px;background:#E3F2FD;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;">⛽</div>
+<div><div style="font-size:13px;font-weight:700;">바이오디젤 생산</div><div style="font-size:11px;color:var(--gray);margin-top:1px;">경유 대비 CO₂ 80% 절감하는 친환경 연료로 재탄생</div></div>
+</div>
+<div style="display:flex;align-items:center;gap:12px;padding:11px 18px;">
+<div style="width:34px;height:34px;background:var(--green-pale);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;">🌿</div>
+<div><div style="font-size:13px;font-weight:700;">ESG 인증 + 포인트 적립</div><div style="font-size:11px;color:var(--gray);margin-top:1px;">수거량 기준 탄소 감축 실적 인증 + 포인트 지급</div></div>
+</div>
+</div>
+</div>
+<!-- 식용유니버스 소식 -->
+<div class="card" style="margin-bottom:14px;">
+<div class="card-header">
+<div class="card-title">📢 식용유니버스 소식</div>
+<div style="font-size:10px;color:var(--gray);">원주 베타 운영 중</div>
+</div>
+<div style="padding:4px 0;">
+<div style="padding:12px 18px;border-bottom:1px solid var(--gray-light);display:flex;gap:10px;align-items:flex-start;">
+<span style="font-size:10px;font-weight:700;background:var(--green-main);color:#000;padding:2px 7px;border-radius:5px;flex-shrink:0;margin-top:1px;">NEW</span>
+<div><div style="font-size:13px;font-weight:600;">원주 베타 서비스 시작!</div><div style="font-size:11px;color:var(--gray);margin-top:2px;">식용유니버스 원주점이 정식 베타 운영을 시작했어요.</div></div>
+</div>
+<div style="padding:12px 18px;border-bottom:1px solid var(--gray-light);display:flex;gap:10px;align-items:flex-start;">
+<span style="font-size:10px;font-weight:700;background:#E3F2FD;color:#185FA5;padding:2px 7px;border-radius:5px;flex-shrink:0;margin-top:1px;">안내</span>
+<div><div style="font-size:13px;font-weight:600;">QR 스티커 배포 중</div><div style="font-size:11px;color:var(--gray);margin-top:2px;">업체 전용 QR을 주방·카운터에 붙이면 로그인 없이 바로 재고 입력 가능해요.</div></div>
+</div>
+<div style="padding:12px 18px;display:flex;gap:10px;align-items:flex-start;">
+<span style="font-size:10px;font-weight:700;background:#FFF8F0;color:#D4621A;padding:2px 7px;border-radius:5px;flex-shrink:0;margin-top:1px;">ESG</span>
+<div><div style="font-size:13px;font-weight:600;">폐유 포인트 → 원주사랑상품권 전환 예정</div><div style="font-size:11px;color:var(--gray);margin-top:2px;">수거 포인트를 원주사랑상품권으로 전환하는 기능이 곧 추가돼요.</div></div>
+</div>
+</div>
+</div>
+<!-- CTA 배너 -->
+<div style="background:var(--green-main);border-radius:var(--radius);padding:20px 22px;">
+<div style="text-align:center;margin-bottom:16px;">
+<div style="font-family:var(--font-display);font-size:15px;font-weight:800;color:#0D0D0D;">🫙 식용유 납품 · 폐유 수거 신청</div>
+<div style="font-size:12px;color:rgba(0,0,0,0.55);margin-top:4px;">원주시 외식업 사장님이라면 누구나 신청 가능해요</div>
+</div>
+<div style="display:flex;gap:10px;justify-content:center;">
+<a href="tel:01091237042" style="text-decoration:none;">
+<button style="background:#fff;border:none;border-radius:10px;padding:11px 22px;font-size:13px;font-weight:800;color:#1C2B22;cursor:pointer;font-family:var(--font-body);box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+                📞 전화 문의
+              </button>
+</a>
+<button onclick="window.location.hash='register';showPanel('register',null);" style="background:#0D0D0D;border:none;border-radius:10px;padding:11px 24px;font-size:13px;font-weight:800;color:#fff;cursor:pointer;font-family:var(--font-body);">
+              🌿 회원가입
+            </button>
+</div>
+<!-- 푸터 링크 -->
+<div style="text-align:center;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.15);">
+<button onclick="showPanel('privacy',null)" style="background:none;border:none;font-size:11px;color:rgba(255,255,255,0.55);cursor:pointer;font-family:var(--font-body);text-decoration:underline;padding:0 8px;">개인정보처리방침</button>
+<span style="color:rgba(255,255,255,0.25);font-size:11px;">|</span>
+<button onclick="showPanel('terms',null)" style="background:none;border:none;font-size:11px;color:rgba(255,255,255,0.55);cursor:pointer;font-family:var(--font-body);text-decoration:underline;padding:0 8px;">이용약관</button>
+<div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:6px;">© 2026 식용유니버스 · 강원특별자치도 원주시</div>
+</div>
+</div>
+<!-- ESG 파트너십 배너 (맨 밑) -->
+<div style="margin-top:14px;background:linear-gradient(135deg,#E8F5E9,#F0FBF5);border-radius:14px;padding:18px 20px;border:1px solid #A5D6A7;">
+<div style="font-size:13px;font-weight:800;color:var(--green-dark);margin-bottom:6px;">🌱 ESG 파트너십 안내</div>
+<div style="font-size:11px;color:#555;line-height:1.8;margin-bottom:12px;">급식소·프랜차이즈 브랜드와 함께 폐식용유 자원순환 ESG 파트너십을 구축합니다.<br/>ISCC EU 인증 지원 · ESG 레포트 발행 · 탄소감축 인증서 제공</div>
+<div style="display:flex;gap:8px;">
+<button onclick="showPanel('esg-school',null)" style="flex:1;padding:9px;background:#1F4D30;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-body);">🏫 급식소 ESG</button>
+<button onclick="showPanel('esg-franchise',null)" style="flex:1;padding:9px;background:#E65100;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-body);">🏬 프랜차이즈 ESG</button>
+</div>
+</div>
+</div>
+</div>

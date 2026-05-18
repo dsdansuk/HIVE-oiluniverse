@@ -1,0 +1,85 @@
+<div class="panel" id="panel-fr-store-signup" style="overflow-y:auto;width:100%;">
+<div style="max-width:560px;margin:30px auto;padding:0 24px 60px;">
+<div style="text-align:center;margin-bottom:24px;">
+<div style="font-size:44px;margin-bottom:10px;">🆕</div>
+<div style="font-family:var(--font-display);font-size:22px;font-weight:800;letter-spacing:-0.03em;margin-bottom:5px;color:var(--green-dark);">프랜차이즈 가맹점 가입</div>
+<div style="font-size:12px;color:var(--gray);line-height:1.6;">신규 가맹점 사장님을 위한 직접 가입 페이지</div>
+</div>
+<!-- 안내 박스 -->
+<div style="background:var(--green-pale);border:1px solid var(--green-main);border-radius:10px;padding:14px 16px;margin-bottom:18px;font-size:12px;color:var(--green-dark);line-height:1.8;">
+<div style="font-weight:800;margin-bottom:5px;">💡 가입 안내</div>
+<div>① 본사로부터 가맹점 코드를 받으셨다면 그대로 사용해주세요</div>
+<div>② 가입 신청 후 식용유니버스 담당자(<b>김기봉</b>) 또는 본사 승인을 거칩니다</div>
+<div>③ 승인되면 입력하신 ID/비밀번호로 바로 로그인할 수 있습니다</div>
+<div>④ 문의: <b>033-XXX-XXXX</b> (식용유니버스)</div>
+</div>
+<div class="card" style="padding:24px 22px;">
+<!-- 1. 브랜드 선택 -->
+<div style="margin-bottom:16px;">
+<label style="font-size:12px;font-weight:700;color:var(--green-dark);display:block;margin-bottom:6px;">소속 브랜드 <span style="color:var(--red-accent);">*</span></label>
+<select class="form-input" id="frSignupBrandId" style="font-size:14px;width:100%;background:#fff;">
+<option value="">— 브랜드를 선택해주세요 —</option>
+</select>
+<div style="font-size:11px;color:var(--gray);margin-top:4px;">목록에 없는 브랜드는 식용유니버스에 먼저 협업 문의가 필요해요</div>
+</div>
+<!-- 2. 매장 정보 -->
+<div style="margin-bottom:14px;">
+<div style="font-size:12.5px;font-weight:800;color:var(--green-dark);margin-bottom:10px;padding-top:8px;border-top:1px dashed var(--gray-light);">🏪 매장 정보</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+<div>
+<label style="font-size:11.5px;font-weight:700;color:var(--gray);display:block;margin-bottom:4px;">매장명 <span style="color:var(--red-accent);">*</span></label>
+<input class="form-input" id="frSignupName" placeholder="예: 봉봉프차 강남점" style="font-size:13px;"/>
+</div>
+<div>
+<label style="font-size:11.5px;font-weight:700;color:var(--gray);display:block;margin-bottom:4px;">매장 코드</label>
+<input class="form-input" id="frSignupCode" placeholder="본사 부여 (선택)" style="font-size:13px;"/>
+</div>
+<div style="grid-column:span 2;">
+<label style="font-size:11.5px;font-weight:700;color:var(--gray);display:block;margin-bottom:4px;">주소 <span style="color:var(--red-accent);">*</span></label>
+<input class="form-input" id="frSignupAddr" placeholder="시·도, 시·군·구, 도로명 주소" style="font-size:13px;"/>
+</div>
+<div>
+<label style="font-size:11.5px;font-weight:700;color:var(--gray);display:block;margin-bottom:4px;">전화번호 <span style="color:var(--red-accent);">*</span></label>
+<input class="form-input" id="frSignupPhone" placeholder="010-1234-5678" style="font-size:13px;" type="tel"/>
+</div>
+<div>
+<label style="font-size:11.5px;font-weight:700;color:var(--gray);display:block;margin-bottom:4px;">사장님 성함 <span style="color:var(--red-accent);">*</span></label>
+<input class="form-input" id="frSignupOwner" placeholder="홍길동" style="font-size:13px;"/>
+</div>
+<div style="grid-column:span 2;">
+<label style="font-size:11.5px;font-weight:700;color:var(--gray);display:block;margin-bottom:4px;">사업자등록번호</label>
+<input class="form-input" id="frSignupBizNo" placeholder="123-45-67890 (선택)" style="font-size:13px;"/>
+</div>
+</div>
+</div>
+<!-- 3. 로그인 계정 -->
+<div style="margin-bottom:14px;background:#FFF8E1;border:1.5px solid #FFB300;border-radius:10px;padding:14px 16px;">
+<div style="font-size:12.5px;font-weight:800;color:#7A4F00;margin-bottom:10px;">🔐 로그인 계정 설정</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+<div>
+<label style="font-size:11.5px;font-weight:700;color:#7A4F00;display:block;margin-bottom:4px;">아이디 <span style="color:var(--red-accent);">*</span></label>
+<input class="form-input" id="frSignupLoginId" oninput="this.value=this.value.replace(/\s/g,'')" placeholder="예: bongbong_seoul" style="font-size:13px;font-family:monospace;"/>
+<div style="font-size:10px;color:#888;margin-top:3px;">영문·숫자·_ 가능, 공백 X</div>
+</div>
+<div>
+<label style="font-size:11.5px;font-weight:700;color:#7A4F00;display:block;margin-bottom:4px;">비밀번호 <span style="color:var(--red-accent);">*</span></label>
+<input class="form-input" id="frSignupLoginPw" placeholder="4자리 이상" style="font-size:13px;" type="password"/>
+<div style="font-size:10px;color:#888;margin-top:3px;">본인만 아는 비밀번호로</div>
+</div>
+</div>
+</div>
+<!-- 4. 약관 동의 -->
+<div style="margin-bottom:16px;padding:12px 14px;background:#FAFBF9;border-radius:8px;border:1px solid var(--gray-light);">
+<label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--gray);cursor:pointer;">
+<input id="frSignupAgree" style="width:16px;height:16px;cursor:pointer;" type="checkbox"/>
+<span>식용유니버스 서비스 이용약관 및 개인정보 처리방침에 동의합니다 <span style="color:var(--red-accent);">*</span></span>
+</label>
+</div>
+<button onclick="frStoreSignupSubmit()" style="width:100%;background:var(--green-dark);color:#fff;border:none;border-radius:10px;padding:14px;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;">✅ 가입 신청</button>
+<div id="frSignupStatus" style="font-size:12px;text-align:center;margin-top:10px;min-height:14px;"></div>
+</div>
+<div style="text-align:center;margin-top:16px;">
+<button onclick="showPanel('owner-login',null)" style="background:none;border:none;color:var(--green-dark);font-size:12.5px;font-weight:700;cursor:pointer;text-decoration:underline;font-family:inherit;">← 이미 계정이 있어요 (로그인)</button>
+</div>
+</div>
+</div>

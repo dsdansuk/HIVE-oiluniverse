@@ -1,0 +1,143 @@
+<div class="panel" id="panel-admin">
+<div id="adminLoginState">
+<div style="max-width:400px;margin:60px auto;padding:0 24px;">
+<div style="text-align:center;margin-bottom:28px;">
+<div style="font-size:44px;margin-bottom:10px;">⚙️</div>
+<div style="font-family:var(--font-display);font-size:22px;font-weight:800;letter-spacing:-0.03em;margin-bottom:5px;">관리자 전용</div>
+<div style="font-size:12px;color:var(--gray);">담당자만 접근 가능한 시세 설정 페이지예요</div>
+</div>
+<div class="card" style="padding:26px;">
+<div class="form-group">
+<label class="form-label">관리자 아이디</label>
+<input class="form-input" id="adminIdInput" onkeydown="if(event.key==='Enter')document.getElementById('adminPwInput').focus()" placeholder="아이디 (예: admin)" style="font-size:15px;letter-spacing:0.02em;" value="admin"/>
+</div>
+<div class="form-group">
+<label class="form-label">관리자 비밀번호</label>
+<input class="form-input" id="adminPwInput" onkeydown="if(event.key==='Enter')adminLogin()" placeholder="관리자 비밀번호 입력" style="font-size:15px;letter-spacing:0.1em;" type="password"/>
+</div>
+<div id="adminPwHint" style="font-size:11px;color:var(--gray);margin-bottom:12px;display:none;">
+              ⚠️ 비밀번호가 설정되지 않았습니다. 원하는 아이디·비밀번호를 입력하면 최초 등록됩니다.
+            </div>
+<div style="font-size:10.5px;color:#888;margin-bottom:10px;line-height:1.5;background:#FAFBF9;border:1px solid #E5E5E5;border-radius:8px;padding:9px 11px;">
+              🔐 <strong>보안 강화</strong>: 비밀번호는 해시(SHA-256)로 저장됩니다.<br/>
+              5회 연속 실패 시 5분간 잠금 · 4시간 후 자동 로그아웃
+            </div>
+<button class="btn btn-primary" onclick="adminLogin()" style="width:100%;justify-content:center;padding:13px;font-size:14px;">🔐 로그인</button>
+</div>
+</div>
+</div>
+<div id="adminDashState" style="display:none;">
+<div style="background:linear-gradient(90deg,#6c3fc5,#9B59B6);padding:13px 26px;display:flex;align-items:center;justify-content:space-between;">
+<div>
+<div style="font-family:var(--font-display);font-size:15px;font-weight:800;color:#fff;letter-spacing:-0.02em;">⚙️ 시세 관리 — 관리자 전용</div>
+<div style="font-size:10px;color:rgba(255,255,255,0.6);margin-top:1px;">수정 즉시 전체 화면에 실시간 반영</div>
+</div>
+<button class="btn" onclick="adminLogout()" style="background:rgba(255,255,255,0.15);color:#fff;font-size:11px;padding:6px 12px;border:1px solid rgba(255,255,255,0.25);">로그아웃</button>
+</div>
+<div style="padding:22px 26px;width:100%;">
+<div class="card" style="margin-bottom:18px;">
+<div class="card-header">
+<div class="card-title">🫙 새식용유 단가 설정</div>
+<div style="font-size:10px;color:var(--gray);">VAT 포함가 기준 · 저장 즉시 전체 반영</div>
+</div>
+<div style="padding:18px 20px;">
+<div id="oilPriceCards"></div>
+<div style="margin-top:14px;padding:11px 14px;background:var(--green-pale);border-radius:9px;border:1px solid var(--green-light);font-size:11px;color:var(--green-dark);">
+                💡 단가 변경 시 업주 앱에도 즉시 반영되며, 자동발주 금액 계산에 적용됩니다.
+              </div>
+</div>
+</div>
+<div class="card" style="margin-bottom:18px;">
+<div class="card-header">
+<div class="card-title">🗑️ 폐유 수거 단가 설정</div>
+<div style="font-size:10px;color:var(--gray);">배출량 계산·업주 화면 자동 반영</div>
+</div>
+<div style="padding:18px 20px;">
+<div id="wastePriceCards"></div>
+<div style="margin-top:14px;padding:11px 14px;background:#FFF8F0;border-radius:9px;border:1px solid #FFD8A8;font-size:11px;color:#D4621A;">
+                💡 캔당 단가 변경 시 수거 신청 금액, 배출량 계산, 업주 화면에 즉시 반영됩니다. 1캔 = 16.5kg 기준.
+              </div>
+</div>
+</div>
+<!-- 🆕 ESG 포인트 적립율 카드 -->
+<div class="card" style="margin-bottom:18px;">
+<div class="card-header" style="background:linear-gradient(135deg,#0FA366,#10D67A);">
+<div class="card-title" style="color:#fff;">🎁 ESG 포인트 적립율 설정</div>
+<div style="font-size:10px;color:rgba(255,255,255,0.85);">업주에게 보여지는 포인트 적립율</div>
+</div>
+<div style="padding:18px 20px;">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+<div style="background:#F0FBF5;border-radius:10px;padding:14px;border:1.5px solid #C5E1CC;">
+<div style="font-size:11px;color:#666;font-weight:700;margin-bottom:6px;">🛒 식용유 구매 시</div>
+<div style="display:flex;align-items:center;gap:6px;">
+<input id="adminPurchaseRate" max="100" min="0" step="0.5" style="flex:1;padding:10px 12px;border:1.5px solid #DDD;border-radius:8px;font-size:18px;font-weight:800;color:#0FA366;font-family:var(--font-display);text-align:right;" type="number"/>
+<span style="font-size:18px;font-weight:800;color:#0FA366;">%</span>
+</div>
+<div style="font-size:10px;color:#888;margin-top:6px;">예: 5 입력 → 100,000원 구매 시 5,000pt 적립</div>
+</div>
+<div style="background:#FFF8F0;border-radius:10px;padding:14px;border:1.5px solid #FFD8A8;">
+<div style="font-size:11px;color:#666;font-weight:700;margin-bottom:6px;">♻️ 폐유 수거 시</div>
+<div style="display:flex;align-items:center;gap:6px;">
+<input id="adminWasteRate" max="100" min="0" step="0.5" style="flex:1;padding:10px 12px;border:1.5px solid #DDD;border-radius:8px;font-size:18px;font-weight:800;color:#D4621A;font-family:var(--font-display);text-align:right;" type="number"/>
+<span style="font-size:18px;font-weight:800;color:#D4621A;">%</span>
+</div>
+<div style="font-size:10px;color:#888;margin-top:6px;">예: 5 입력 → 22,000원 수거 시 1,100pt 적립</div>
+</div>
+</div>
+<button onclick="savePointRates()" style="width:100%;margin-top:14px;padding:12px;background:linear-gradient(135deg,#0FA366,#10D67A);color:#fff;border:none;border-radius:9px;font-size:13px;font-weight:800;cursor:pointer;font-family:var(--font-body);">
+                💾 적립율 저장
+              </button>
+<div style="margin-top:12px;padding:11px 14px;background:#F0FBF5;border-radius:9px;border:1px solid #C5E1CC;font-size:11px;color:#0FA366;">
+                💡 변경 즉시 모든 업주 대시보드와 ESG 페이지에 반영됩니다.
+              </div>
+</div>
+</div>
+<!-- 🆕 공지사항 카드 -->
+<div class="card" style="margin-bottom:18px;">
+<div class="card-header" style="background:linear-gradient(135deg,#FF9500,#E65100);">
+<div class="card-title" style="color:#fff;">📢 공지사항 관리</div>
+<div style="font-size:10px;color:rgba(255,255,255,0.85);">메인 화면 최상단에 노출</div>
+</div>
+<div style="padding:18px 20px;">
+<div style="margin-bottom:12px;">
+<label style="display:block;font-size:11px;font-weight:700;color:#666;margin-bottom:6px;">제목</label>
+<input id="adminNoticeTitle" placeholder="예: 🎉 베타 서비스 오픈 이벤트" style="width:100%;padding:11px 13px;border:1.5px solid #DDD;border-radius:9px;font-size:14px;font-weight:700;font-family:var(--font-body);box-sizing:border-box;" type="text"/>
+</div>
+<div style="margin-bottom:12px;">
+<label style="display:block;font-size:11px;font-weight:700;color:#666;margin-bottom:6px;">내용 (줄바꿈 가능)</label>
+<textarea id="adminNoticeBody" placeholder="예: 식용유니버스 베타 오픈 기념! 식용유 구매 5% + 폐유 수거 5% ESG 포인트 적립 → 다음 식용유 구매 시 사용 가능합니다." rows="5" style="width:100%;padding:11px 13px;border:1.5px solid #DDD;border-radius:9px;font-size:13px;font-family:var(--font-body);box-sizing:border-box;resize:vertical;line-height:1.6;"></textarea>
+</div>
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;background:#FFF8E7;border-radius:9px;padding:10px 13px;border:1px solid #FCD34D;">
+<input id="adminNoticeActive" style="width:18px;height:18px;cursor:pointer;" type="checkbox"/>
+<label for="adminNoticeActive" style="font-size:12px;font-weight:700;color:#92400E;cursor:pointer;flex:1;">📢 공지사항 활성화 (체크 해제 시 모든 화면에서 숨김)</label>
+</div>
+<div style="display:flex;gap:8px;">
+<button onclick="saveNotice()" style="flex:2;padding:12px;background:linear-gradient(135deg,#FF9500,#E65100);color:#fff;border:none;border-radius:9px;font-size:13px;font-weight:800;cursor:pointer;font-family:var(--font-body);">
+                  💾 공지 저장
+                </button>
+<button onclick="clearNotice()" style="flex:1;padding:12px;background:#F5F5F5;color:#666;border:1.5px solid #DDD;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-body);">
+                  🗑️ 공지 삭제
+                </button>
+</div>
+<div style="margin-top:12px;padding:11px 14px;background:#FFF3E0;border-radius:9px;font-size:11px;color:#E65100;line-height:1.6;">
+                💡 <strong>활용 팁</strong>: 베타 오픈 이벤트, 시세 변경, 휴무 안내, 시스템 점검 등에 사용해보세요.<br/>
+                ✨ 변경 즉시 모든 사용자 화면에 실시간 반영됩니다.
+              </div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start;">
+<div>
+<button class="btn btn-primary" id="adminSaveBtn" onclick="adminSavePrices(this)" style="width:100%;justify-content:center;padding:14px;font-size:14px;margin-bottom:10px;">💾 시세 저장 &amp; 전체 반영</button>
+<button class="btn btn-outline" onclick="adminResetPrices()" style="width:100%;justify-content:center;padding:10px;font-size:12px;">🔄 기본값으로 초기화</button>
+</div>
+<div class="card" style="padding:16px 18px;">
+<div style="font-size:11px;font-weight:700;color:var(--gray);letter-spacing:0.03em;margin-bottom:10px;">📋 최근 변경 이력</div>
+<div id="priceChangeLog" style="display:flex;flex-direction:column;gap:7px;">
+<div style="font-size:11px;color:var(--gray);text-align:center;padding:10px 0;">저장 시 자동 기록돼요</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- panel-admin 닫음 -->
+</div>
