@@ -1,0 +1,432 @@
+<div class="panel" id="panel-register" style="width:100%;">
+<!-- ★ 신청 완료 감사 화면 (기본 숨김) -->
+<div id="signupThankYou" style="display:none;padding:40px 24px;max-width:520px;margin:0 auto;text-align:center;">
+<div style="position:relative;width:120px;height:120px;margin:20px auto 28px;">
+<div style="position:absolute;inset:0;background:linear-gradient(135deg,#10D67A,#1F4D30);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 28px rgba(16,214,122,0.25);animation:thankPop 0.5s cubic-bezier(.34,1.56,.64,1);">
+<svg fill="none" height="60" viewbox="0 0 60 60" width="60">
+<path d="M14 30 L25 41 L46 19" stroke="#fff" stroke-dasharray="50" stroke-dashoffset="50" stroke-linecap="round" stroke-linejoin="round" stroke-width="6">
+<animate attributename="stroke-dashoffset" begin="0.2s" dur="0.6s" fill="freeze" from="50" to="0"></animate>
+</path>
+</svg>
+</div>
+</div>
+
+<div style="font-family:var(--font-display);font-size:26px;font-weight:800;letter-spacing:-0.04em;color:var(--green-dark);margin-bottom:10px;">신청이 완료됐어요!</div>
+<div id="thankYouBizName" style="background:var(--green-pale);color:var(--green-dark);font-size:14px;font-weight:700;padding:8px 18px;border-radius:24px;display:inline-block;margin-bottom:24px;">— 업체명 —</div>
+<div style="background:#fff;border:1.5px solid var(--green-main);border-radius:16px;padding:22px 24px;text-align:left;box-shadow:0 4px 16px rgba(5,196,107,0.08);margin-bottom:18px;">
+<div style="font-size:12px;font-weight:700;color:var(--green-dark);margin-bottom:14px;display:flex;align-items:center;gap:6px;">⏰ <span>24시간 안에 승인됩니다</span></div>
+<div style="font-size:13px;color:var(--black);line-height:1.7;">
+            관리자가 사업자등록증과 신청 내용을 확인한 후 승인 처리합니다.<br/>
+            승인이 완료되면 <b style="color:var(--green-dark);">알림</b>으로 안내드릴게요.
+          </div>
+<div style="margin-top:14px;padding-top:14px;border-top:1px dashed #E0E0E0;font-size:12px;color:var(--gray);line-height:1.6;">
+            ✅ 사업자 등록증 업로드 완료<br/>
+            ✅ 통장 사본 업로드 완료<br/>
+            ✅ 대표자 서명 완료<br/>
+            ✅ ISCC 자가선언서 동의 완료
+          </div>
+</div>
+<div style="background:#FFF8E7;border-radius:14px;padding:18px 22px;text-align:left;margin-bottom:24px;">
+<div style="font-size:12px;font-weight:700;color:#B45309;margin-bottom:10px;">💬 궁금한 점이 있다면?</div>
+<div style="font-size:13px;color:#92400E;line-height:1.6;margin-bottom:12px;">
+            담당자에게 직접 문의해주세요.
+          </div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;">
+<a href="tel:033-XXX-XXXX" style="flex:1;background:#fff;color:#92400E;font-size:13px;font-weight:700;padding:11px 14px;border-radius:10px;text-decoration:none;text-align:center;border:1.5px solid #FCD34D;min-width:120px;">📞 033-XXX-XXXX</a>
+<a href="https://pf.kakao.com/_HIVE" style="flex:1;background:#FEE500;color:#3C1E1E;font-size:13px;font-weight:700;padding:11px 14px;border-radius:10px;text-decoration:none;text-align:center;min-width:120px;" target="_blank">💬 카카오 채널 문의</a>
+</div>
+</div>
+<button onclick="closeThankYouAndReset()" style="background:var(--green-main);color:#fff;border:none;border-radius:12px;padding:14px 32px;font-size:14px;font-weight:800;cursor:pointer;width:100%;font-family:var(--font-body);box-shadow:0 4px 12px rgba(5,196,107,0.2);">확인</button>
+</div>
+<!-- 기존 회원가입 폼 영역 -->
+<div id="signupFormArea">
+<div style="padding:28px 26px;">
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:22px;">
+<div style="width:44px;height:44px;background:var(--green-main);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">➕</div>
+<div>
+<div style="font-family:var(--font-display);font-size:20px;font-weight:800;letter-spacing:-0.03em;">🌿 회원가입</div>
+<div style="font-size:12px;color:var(--gray);margin-top:2px;">가입 후 관리자 승인이 완료되면 서비스를 이용할 수 있어요</div>
+</div>
+</div>
+<!-- 🆕 v130/v139: 가입 유형 선택 (일반 사업자 / 프랜차이즈 가맹점 / 급식소) -->
+<div class="card" style="margin-bottom:16px;">
+<div style="padding:18px 22px;">
+<div style="font-size:13px;font-weight:800;color:var(--green-dark);margin-bottom:12px;">🏪 가입 유형 선택</div>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;">
+<label style="cursor:pointer;display:block;">
+<input checked="" name="reg_tenant_type" onchange="toggleRegFranchiseSection()" style="display:none;" type="radio" value="individual"/>
+<div class="reg-tenant-option" data-value="individual" style="border:2px solid var(--green-main);background:var(--green-pale);border-radius:12px;padding:14px 12px;text-align:center;transition:all 0.15s;">
+<div style="font-size:28px;margin-bottom:5px;">🏪</div>
+<div style="font-size:13px;font-weight:800;color:var(--green-dark);">일반 사업자</div>
+<div style="font-size:10.5px;color:var(--gray);margin-top:2px;">개별 식당·튀김집·매장</div>
+</div>
+</label>
+<label style="cursor:pointer;display:block;">
+<input name="reg_tenant_type" onchange="toggleRegFranchiseSection()" style="display:none;" type="radio" value="franchise_store"/>
+<div class="reg-tenant-option" data-value="franchise_store" style="border:2px solid var(--gray-light);background:#fff;border-radius:12px;padding:14px 12px;text-align:center;transition:all 0.15s;">
+<div style="font-size:28px;margin-bottom:5px;">🏬</div>
+<div style="font-size:13px;font-weight:800;color:var(--gray);">프랜차이즈 가맹점</div>
+<div style="font-size:10.5px;color:var(--gray);margin-top:2px;">봉봉프차·교촌 등 브랜드</div>
+</div>
+</label>
+<label style="cursor:pointer;display:block;">
+<input name="reg_tenant_type" onchange="toggleRegFranchiseSection()" style="display:none;" type="radio" value="school"/>
+<div class="reg-tenant-option" data-value="school" style="border:2px solid var(--gray-light);background:#fff;border-radius:12px;padding:14px 12px;text-align:center;transition:all 0.15s;">
+<div style="font-size:28px;margin-bottom:5px;">🏫</div>
+<div style="font-size:13px;font-weight:800;color:var(--gray);">급식소</div>
+<div style="font-size:10.5px;color:var(--gray);margin-top:2px;">학교·병원·기업 구내식당</div>
+</div>
+</label>
+</div>
+<!-- 프랜차이즈 추가 정보 (가맹점 선택 시만 노출) -->
+<div id="reg_franchise_section" style="display:none;margin-top:14px;padding-top:14px;border-top:1px dashed var(--gray-light);">
+<div style="background:#FFF8E1;border:1px solid #FFB300;border-radius:10px;padding:12px 14px;margin-bottom:12px;font-size:11.5px;color:#7A4F00;line-height:1.6;">
+                💡 <b>프랜차이즈 가맹점 가입 안내</b><br/>
+                ① 본사가 식용유니버스와 협업 계약된 브랜드만 가입 가능<br/>
+                ② 가입 후 본사 또는 식용유니버스 담당자 승인을 거칩니다<br/>
+                ③ 본사로부터 매장 코드를 받았다면 그대로 입력해주세요
+              </div>
+<div style="display:grid;grid-template-columns:2fr 1fr;gap:10px;">
+<div class="form-group" style="margin:0;">
+<label class="form-label">소속 브랜드 <span style="color:var(--red-accent);">*</span></label>
+<select class="form-select" id="reg_brand_id" style="font-size:13px;">
+<option value="">— 브랜드를 선택해주세요 —</option>
+</select>
+</div>
+<div class="form-group" style="margin:0;">
+<label class="form-label">매장 코드 (선택)</label>
+<input class="form-input" id="reg_store_code" placeholder="예: 001" style="font-size:13px;"/>
+</div>
+</div>
+</div>
+<!-- 🆕 v139: 급식소 가입 안내 -->
+<div id="reg_school_section" style="display:none;margin-top:14px;padding-top:14px;border-top:1px dashed var(--gray-light);">
+<div style="background:#E8F5E9;border:1px solid #2E7D32;border-radius:10px;padding:12px 14px;font-size:11.5px;color:#1B5E20;line-height:1.6;">
+                💚 <b>급식소 가입 안내</b><br/>
+                ① 학교·병원·기업 구내식당 영양사·행정실 담당자가 가입<br/>
+                ② 무료 폐식용유 수거 + 학생 환경 교육 자료 제공<br/>
+                ③ 학교장 ISCC 자가선언서 자동 발행 (교육청 보고용)<br/>
+                ④ 가입 후 식용유니버스 담당자가 1영업일 내 연락드립니다
+              </div>
+</div>
+</div>
+</div>
+<div class="card" style="margin-bottom:16px;">
+<div class="card-header" style="background:#0D0D0D;border-bottom:none;">
+<div class="card-title" style="color:var(--white);">🔍 업체 검색 — 카카오 장소 검색</div>
+<div style="font-size:10px;color:#555;">상호명으로 검색하면 주소·좌표 자동 입력</div>
+</div>
+<!-- 2컬럼 레이아웃 시작 -->
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;">
+<!-- 왼쪽: 검색 + 추가정보 + 재고 + 자동발주 + 버튼 -->
+<div>
+<div style="padding:20px;">
+<!-- 검색창 -->
+<div style="display:flex;gap:8px;margin-bottom:6px;">
+<div style="flex:1;position:relative;">
+<input class="form-input" id="kakao_search_input" oninput="if(this.value==='') document.getElementById('kakaoResults').innerHTML=''" onkeydown="if(event.key==='Enter') searchKakaoPlace()" placeholder="예: 소바랑 원주, 원주토토미닭강정..." style="padding-left:36px;"/>
+<span style="position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none;">🔍</span>
+</div>
+<button class="btn btn-primary" onclick="searchKakaoPlace()" style="padding:10px 18px;white-space:nowrap;">검색</button>
+</div>
+<div style="font-size:10px;color:#6B7D72;margin-bottom:10px;padding:0 4px;">💡 <strong>지역명을 함께 입력</strong>하면 더 정확해요 (예: "소바랑 원주", "토토미 단구동")</div>
+<!-- 검색 결과 -->
+<div id="kakaoResults" style="display:flex;flex-direction:column;gap:6px;max-height:260px;overflow-y:auto;margin-bottom:4px;"></div>
+<!-- 선택된 업체 미리보기 -->
+<div id="selectedBizPreview" style="display:none;background:var(--green-pale);border:1.5px solid var(--green-light);border-radius:var(--radius-sm);padding:14px 16px;margin-top:10px;">
+<div style="font-size:10px;font-weight:700;color:var(--green-dark);margin-bottom:8px;letter-spacing:0.04em;">✅ 선택된 업체</div>
+<div id="prev_name" style="font-family:var(--font-display);font-size:15px;font-weight:800;letter-spacing:-0.02em;margin-bottom:3px;">—</div>
+<div id="prev_addr" style="font-size:11px;color:var(--gray);margin-bottom:8px;">—</div>
+<div style="display:flex;gap:8px;">
+<div style="font-size:10px;background:var(--white);padding:4px 9px;border-radius:6px;color:var(--gray);">위도: <strong id="prev_lat" style="color:var(--black);">—</strong></div>
+<div style="font-size:10px;background:var(--white);padding:4px 9px;border-radius:6px;color:var(--gray);">경도: <strong id="prev_lng" style="color:var(--black);">—</strong></div>
+<div id="prev_phone_box" style="font-size:10px;background:var(--white);padding:4px 9px;border-radius:6px;color:var(--gray);">전화: <strong id="prev_phone" style="color:var(--black);">—</strong></div>
+</div>
+</div>
+<!-- 숨겨진 실제 데이터 필드 -->
+<input id="reg_name" type="hidden"/>
+<input id="reg_addr" type="hidden"/>
+<input id="reg_lat" type="hidden"/>
+<input id="reg_lng" type="hidden"/>
+<input id="reg_phone" type="hidden"/>
+</div>
+</div>
+<!-- 오른쪽: 추가정보 + 재고 + 자동발주 + 버튼 -->
+<div style="padding:20px 20px 20px 0;">
+<!-- 추가 정보 -->
+<div style="background:var(--cream);border-radius:var(--radius-sm);padding:16px 18px;margin-bottom:14px;border:1px solid var(--gray-light);">
+<div style="font-size:12px;font-weight:700;margin-bottom:12px;">📋 추가 정보</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+<div class="form-group" style="margin:0">
+<label class="form-label">업종 *</label>
+<select class="form-select" id="reg_type">
+<option>치킨집</option>
+<option>닭갈비</option>
+<option>분식</option>
+<option>족발/보쌈</option>
+<option>한식</option>
+<option>중식</option>
+<option>일식</option>
+<option>패스트푸드</option>
+<option>카페/디저트</option>
+<option>기타</option>
+</select>
+</div>
+<div class="form-group" style="margin:0">
+<label class="form-label">대표자명 (선택)</label>
+<input class="form-input" id="reg_owner" placeholder="홍길동"/>
+</div>
+</div>
+</div>
+<!-- 전화번호 -->
+<div style="background:var(--cream);border-radius:var(--radius-sm);padding:16px 18px;margin-bottom:14px;border:1px solid var(--gray-light);">
+<div style="font-size:12px;font-weight:700;margin-bottom:12px;">📋 인증 정보</div>
+<div class="form-group" style="margin:0">
+<label class="form-label">📱 대표자 휴대폰 <span style="color:var(--red-accent);">*</span></label>
+<input class="form-input" id="reg_phone_input" oninput="document.getElementById('reg_phone').value=this.value" placeholder="010-0000-0000" style="font-size:14px;" type="tel"/>
+<div style="font-size:10px;color:var(--gray);margin-top:3px;">📲 납품·수거 알림 문자가 이 번호로 발송돼요 · 로그인 비밀번호(뒷 4자리)로 사용</div>
+</div>
+</div>
+<!-- 로그인 ID / PW 직접 설정 -->
+<div style="background:#EEF4FF;border-radius:var(--radius-sm);padding:16px 18px;margin-bottom:14px;border:1.5px solid #93C5FD;">
+<div style="font-size:12px;font-weight:700;color:#185FA5;margin-bottom:12px;">🔐 로그인 계정 설정</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+<div class="form-group" style="margin:0">
+<label class="form-label">아이디 <span style="color:var(--red-accent);">*</span></label>
+<input class="form-input" id="reg_login_id" oninput="this.value=this.value.replace(/\s/g,'')" placeholder="예: 진미통닭01" style="font-size:14px;"/>
+<div style="font-size:10px;color:var(--gray);margin-top:3px;">영문·숫자·한글 가능, 공백 불가</div>
+</div>
+<div class="form-group" style="margin:0">
+<label class="form-label">비밀번호 <span style="color:var(--red-accent);">*</span></label>
+<input class="form-input" id="reg_login_pw" placeholder="4자리 이상" style="font-size:14px;" type="password"/>
+<div style="font-size:10px;color:var(--gray);margin-top:3px;">본인만 아는 비밀번호로 설정하세요</div>
+</div>
+</div>
+<div style="margin-top:10px;padding:8px 12px;background:#DBEAFE;border-radius:7px;font-size:11px;color:#185FA5;">
+              💡 승인 완료 후 이 아이디/비밀번호로 로그인하시면 돼요
+            </div>
+</div>
+<!-- 식용유 초기 재고 -->
+<div style="background:var(--cream);border-radius:var(--radius-sm);padding:16px 18px;margin-bottom:14px;border:1px solid var(--gray-light);">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+<div style="font-size:12px;font-weight:700;">🫙 구매 품목 및 초기 재고 설정</div>
+<div style="font-size:10px;color:var(--gray);">등록 후 업주가 직접 수정 가능</div>
+</div>
+<!-- 품목 선택 -->
+<div id="regProductRows" style="margin-bottom:12px;">
+<!-- JS로 렌더링 -->
+</div>
+<button onclick="addRegProductRow()" style="background:var(--green-pale);border:1.5px dashed var(--green-light);border-radius:9px;width:100%;padding:9px;font-size:12px;font-weight:700;color:var(--green-dark);cursor:pointer;margin-bottom:12px;" type="button">➕ 품목 추가</button>
+<!-- 폐유 -->
+<div class="form-group" style="margin:0">
+<label class="form-label">폐식용유 보유 (캔)</label>
+<input class="form-input" id="reg_wasteOil" max="30" min="0" style="font-family:var(--font-display);font-size:17px;font-weight:800;text-align:center;" type="number" value="0"/>
+</div>
+</div>
+<!-- 자동발주 -->
+<div id="regAutoBox" style="background:var(--cream);border-radius:var(--radius-sm);padding:14px 18px;margin-bottom:12px;border:1px solid var(--gray-light);">
+<label style="display:flex;align-items:center;gap:14px;cursor:pointer;margin-bottom:12px;">
+<input checked="" id="regAutoCheckbox" onchange="onRegAutoChange()" style="width:22px;height:22px;cursor:pointer;flex-shrink:0;accent-color:#3D9E6E;" type="checkbox"/>
+<div style="flex:1;">
+<div style="font-size:13px;font-weight:700;">⚡ 식용유 자동발주 <span id="regAutoStatus" style="font-size:11px;font-weight:800;color:#3D9E6E;margin-left:6px;">[ON]</span></div>
+<div style="font-size:11px;color:var(--gray);margin-top:2px;">설정한 캔수 이하 시 자동 주문 (체크 해제 시 수동발주)</div>
+</div>
+</label>
+<div id="regAutoQtyRow" style="display:flex;flex-direction:column;gap:10px;">
+<div style="display:flex;align-items:center;gap:12px;">
+<div style="font-size:11px;color:var(--gray);flex-shrink:0;width:90px;">📉 트리거 기준</div>
+<input class="form-input" id="reg_autoTrigger" max="20" min="1" style="width:70px;font-family:var(--font-display);font-size:16px;font-weight:800;text-align:center;padding:5px;" type="number" value="2"/>
+<div style="font-size:11px;color:var(--gray);">캔 <span style="color:#0FA366;font-weight:600;">이하면 자동발주 시작</span></div>
+</div>
+<div style="display:flex;align-items:center;gap:12px;">
+<div style="font-size:11px;color:var(--gray);flex-shrink:0;width:90px;">📦 발주 수량</div>
+<input class="form-input" id="reg_autoQty" max="50" min="1" style="width:70px;font-family:var(--font-display);font-size:16px;font-weight:800;text-align:center;padding:5px;" type="number" value="5"/>
+<div style="font-size:11px;color:var(--gray);">캔 <span style="color:#0FA366;font-weight:600;">자동 주문</span></div>
+</div>
+<div style="font-size:10px;color:#666;background:#fff;padding:8px 10px;border-radius:6px;border:1px dashed #C5E1CC;">
+                💡 예시: 2캔 이하 시 5캔 자동 주문 (소형식당 추천: 2/5캔, 대형업장: 5/10캔)
+              </div>
+</div>
+</div>
+<!-- 🆕 자동수거 (폐유) -->
+<div id="regCollectBox" style="background:#FFF8F0;border-radius:var(--radius-sm);padding:14px 18px;margin-bottom:16px;border:1px solid #FFD8A8;">
+<label style="display:flex;align-items:center;gap:14px;cursor:pointer;margin-bottom:12px;">
+<input checked="" id="regCollectCheckbox" onchange="onRegCollectChange()" style="width:22px;height:22px;cursor:pointer;flex-shrink:0;accent-color:#FF9500;" type="checkbox"/>
+<div style="flex:1;">
+<div style="font-size:13px;font-weight:700;">♻️ 폐유 자동수거 <span id="regCollectStatus" style="font-size:11px;font-weight:800;color:#FF9500;margin-left:6px;">[ON]</span></div>
+<div style="font-size:11px;color:var(--gray);margin-top:2px;">설정한 캔수 이상 모이면 자동 수거 요청</div>
+</div>
+</label>
+<div id="regCollectQtyRow" style="display:flex;align-items:center;gap:12px;">
+<div style="font-size:11px;color:var(--gray);flex-shrink:0;width:90px;">📈 트리거 기준</div>
+<input class="form-input" id="reg_collectTrigger" max="20" min="1" style="width:70px;font-family:var(--font-display);font-size:16px;font-weight:800;text-align:center;padding:5px;" type="number" value="2"/>
+<div style="font-size:11px;color:var(--gray);">캔 <span style="color:#D4621A;font-weight:600;">이상이면 자동수거 요청</span></div>
+</div>
+<div style="font-size:10px;color:#666;background:#fff;padding:8px 10px;border-radius:6px;border:1px dashed #FFD8A8;margin-top:10px;">
+              💡 예시: 2캔 이상 모이면 수거 요청 (소형: 2캔, 대형: 5캔)
+            </div>
+</div>
+<!-- 휴무일 -->
+<div style="background:#f8fffe;border:1px solid #e8f5e9;border-radius:10px;padding:14px 16px;margin-bottom:12px;">
+<div style="font-size:12px;font-weight:700;color:var(--green-dark);margin-bottom:10px;">📅 휴무일 설정</div>
+<div style="font-size:11px;color:var(--gray);margin-bottom:8px;font-weight:600;">휴무일 (중복 선택 가능) — 이 날짜에는 발주/수거가 진행되지 않아요</div>
+<div id="closedDayBtns" style="display:flex;gap:6px;flex-wrap:wrap;">
+<button class="closed-btn" data-day="mon" onclick="toggleClosedDay(this,'mon')" style="padding:5px 10px;border:1.5px solid var(--gray-light);border-radius:6px;font-size:12px;background:#fff;cursor:pointer;" type="button">월</button>
+<button class="closed-btn" data-day="tue" onclick="toggleClosedDay(this,'tue')" style="padding:5px 10px;border:1.5px solid var(--gray-light);border-radius:6px;font-size:12px;background:#fff;cursor:pointer;" type="button">화</button>
+<button class="closed-btn" data-day="wed" onclick="toggleClosedDay(this,'wed')" style="padding:5px 10px;border:1.5px solid var(--gray-light);border-radius:6px;font-size:12px;background:#fff;cursor:pointer;" type="button">수</button>
+<button class="closed-btn" data-day="thu" onclick="toggleClosedDay(this,'thu')" style="padding:5px 10px;border:1.5px solid var(--gray-light);border-radius:6px;font-size:12px;background:#fff;cursor:pointer;" type="button">목</button>
+<button class="closed-btn" data-day="fri" onclick="toggleClosedDay(this,'fri')" style="padding:5px 10px;border:1.5px solid var(--gray-light);border-radius:6px;font-size:12px;background:#fff;cursor:pointer;" type="button">금</button>
+<button class="closed-btn" data-day="sat" onclick="toggleClosedDay(this,'sat')" style="padding:5px 10px;border:1.5px solid var(--gray-light);border-radius:6px;font-size:12px;background:#fff;cursor:pointer;" type="button">토</button>
+<button class="closed-btn" data-day="sun" onclick="toggleClosedDay(this,'sun')" style="padding:5px 10px;border:1.5px solid var(--gray-light);border-radius:6px;font-size:12px;background:#fff;cursor:pointer;" type="button">일</button>
+</div>
+</div>
+<!-- 서류 첨부 -->
+<div style="background:#f8fffe;border:1px solid #e8f5e9;border-radius:10px;padding:14px 16px;margin-bottom:12px;">
+<div style="font-size:12px;font-weight:700;color:var(--green-dark);margin-bottom:10px;">📎 서류 첨부</div>
+<div style="display:flex;flex-direction:column;gap:10px;">
+<div>
+<div style="font-size:11px;color:var(--gray);font-weight:600;margin-bottom:4px;">사업자등록증 <span style="color:var(--red-accent);">*</span></div>
+<input accept="image/*,.pdf" id="reg_cert_file" onchange="handleCertUpload(event,'regCert')" style="font-size:12px;width:100%;border:1.5px dashed var(--gray-light);border-radius:8px;padding:8px;" type="file"/>
+<div id="regCertPreview" style="font-size:11px;color:var(--green-dark);margin-top:4px;"></div>
+</div>
+<div>
+<div style="font-size:11px;color:var(--gray);font-weight:600;margin-bottom:4px;">통장사본</div>
+<input accept="image/*,.pdf" id="reg_bank_file" onchange="handleCertUpload(event,'regBank')" style="font-size:12px;width:100%;border:1.5px dashed var(--gray-light);border-radius:8px;padding:8px;" type="file"/>
+<div id="regBankPreview" style="font-size:11px;color:var(--green-dark);margin-top:4px;"></div>
+</div>
+</div>
+</div>
+<!-- ✍️ 대표자 서명 (ISCC 인증용) -->
+<div style="background:#FFF8E7;border:1.5px solid #FFE082;border-radius:10px;padding:14px 16px;margin-bottom:12px;">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:6px;">
+<div style="font-size:12px;font-weight:700;color:#B8860B;">✍️ 대표자 서명 <span style="color:var(--red-accent);">*</span></div>
+<div style="font-size:10px;color:#7C5E10;background:#fff;padding:2px 8px;border-radius:4px;border:1px solid #FFE082;">🌍 ISCC EU 자가선언서에 자동 삽입</div>
+</div>
+<div style="font-size:11px;color:#7C5E10;line-height:1.5;margin-bottom:10px;">
+              아래 흰 영역에 손가락(또는 마우스)으로 서명해주세요.
+            </div>
+<div style="position:relative;border:2px dashed #BDBDBD;border-radius:10px;background:#fff;overflow:hidden;">
+<canvas height="140" id="regSignatureCanvas" style="display:block;width:100%;height:140px;cursor:crosshair;touch-action:none;" width="400"></canvas>
+<div id="regSignaturePlaceholder" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;color:#BDBDBD;font-size:13px;font-weight:600;">여기에 서명해주세요 ✍️</div>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
+<span id="regSignatureMeta" style="font-size:11px;color:var(--gray);">서명 후 [업체 등록 완료]를 누르면 저장돼요</span>
+<button onclick="clearRegSignature()" style="background:none;border:none;color:#185FA5;font-size:11px;font-weight:700;cursor:pointer;text-decoration:underline;font-family:var(--font-body);" type="button">🔄 다시 그리기</button>
+</div>
+</div>
+<!-- 개인정보 동의 -->
+<div style="background:#f8fffe;border:1px solid #e8f5e9;border-radius:10px;padding:14px 16px;margin-bottom:12px;">
+<div style="font-size:12px;font-weight:700;color:var(--green-dark);margin-bottom:10px;">📋 서비스 이용 동의 (필수)</div>
+<label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;margin-bottom:10px;">
+<input id="privacyAgree" style="width:16px;height:16px;margin-top:2px;flex-shrink:0;accent-color:var(--green-main);" type="checkbox"/>
+<div style="font-size:12px;color:#444;line-height:1.6;">
+<strong style="color:var(--red-accent);">[필수]</strong> 개인정보(업체명, 대표자명, 연락처, 주소 등)의 수집·이용에 동의합니다.
+                <button onclick="showPanel('privacy',null)" style="background:none;border:none;color:var(--green-dark);font-size:11px;cursor:pointer;text-decoration:underline;padding:0;font-family:var(--font-body);margin-left:4px;" type="button">전문 보기 →</button>
+</div>
+</label>
+<label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;margin-bottom:10px;">
+<input id="termsAgree" style="width:16px;height:16px;margin-top:2px;flex-shrink:0;accent-color:var(--green-main);" type="checkbox"/>
+<div style="font-size:12px;color:#444;line-height:1.6;">
+<strong style="color:var(--red-accent);">[필수]</strong> 식용유니버스 이용약관에 동의합니다.
+                <button onclick="showPanel('terms',null)" style="background:none;border:none;color:var(--green-dark);font-size:11px;cursor:pointer;text-decoration:underline;padding:0;font-family:var(--font-body);margin-left:4px;" type="button">전문 보기 →</button>
+</div>
+</label>
+<!-- 🌍 ISCC EU 인증용 자료 제공 동의 -->
+<label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;margin-bottom:10px;background:#FFF8E7;border:1px solid #FFE082;border-radius:8px;padding:10px 12px;">
+<input id="isccAgree" style="width:16px;height:16px;margin-top:2px;flex-shrink:0;accent-color:#B8860B;" type="checkbox"/>
+<div style="font-size:12px;color:#444;line-height:1.6;">
+<strong style="color:#B8860B;">[필수]</strong> 🌍 <strong>ISCC EU 인증</strong>을 위한 자료(폐식용유 수거 이력·수량·발생 업체 정보·서명)를 ISCC System GmbH 및 바이오디젤 인증기관에 제공하는 것에 동의합니다.
+                <div style="font-size:10px;color:#7C5E10;margin-top:4px;">※ 이 동의는 폐식용유의 EU 수출용 바이오디젤 원료 인증에 필수이며, 동의하지 않으면 ESG 포인트 적립과 ISCC 자가선언서 발행이 불가능합니다.</div>
+</div>
+</label>
+<label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;">
+<input id="marketingAgree" style="width:16px;height:16px;margin-top:2px;flex-shrink:0;accent-color:var(--green-main);" type="checkbox"/>
+<div style="font-size:12px;color:#888;line-height:1.6;">
+<strong style="color:#888;">[선택]</strong> 납품·수거 관련 공지 및 서비스 안내 수신에 동의합니다.
+              </div>
+</label>
+</div>
+<!-- 버튼 -->
+<div style="display:flex;gap:10px;">
+<button class="btn btn-outline" onclick="clearRegForm()" style="padding:13px 20px;font-size:13px;">🔄 초기화</button>
+<button class="btn btn-primary" id="regCompleteBtn" onclick="checkPrivacyAndRegister()" style="flex:1;justify-content:center;padding:13px;font-size:14px;font-weight:800;">
+              ✅ 업체 등록 완료
+            </button>
+</div>
+</div>
+</div><!-- 2컬럼 레이아웃 끝 -->
+</div><!-- card 끝 -->
+<!-- 승인 대기 섹션 (관리자만 보임) -->
+<div id="pendingBizSection" style="margin-top:24px;display:none;">
+<div style="font-family:var(--font-display);font-size:14px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+            ⏳ 승인 대기
+            <span id="pendingCount" style="background:#E65100;color:#fff;font-size:11px;padding:2px 9px;border-radius:20px;font-weight:700;">0</span>
+<span style="font-size:11px;font-weight:400;color:var(--gray);">— 업주 셀프 등록 신청</span>
+<button onclick="manualPollPendingBiz()" style="margin-left:auto;background:#185FA5;color:#fff;border:none;border-radius:6px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--font-body);">🔄 즉시 새로고침</button>
+</div>
+<!-- 🔧 디버그 패널 -->
+<div id="pendingDebugPanel" style="background:#0D0D0D;color:#fff;border-radius:8px;padding:10px 14px;margin-bottom:10px;font-size:11px;line-height:1.6;font-family:'Courier New', monospace;">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:6px;">
+<div style="color:#90CAF9;font-weight:700;">🔧 DB 동기화 상태</div>
+<button onclick="testPendingInsert()" style="background:#FF6B35;color:#fff;border:none;border-radius:5px;padding:3px 10px;font-size:10px;font-weight:700;cursor:pointer;font-family:var(--font-body);">🧪 테스트 신청 INSERT</button>
+</div>
+<div>마지막 폴링: <span id="dbgLastPoll" style="color:#A5D6A7;">대기 중...</span></div>
+<div>DB 신청 건수: <span id="dbgPendingCount" style="color:#A5D6A7;">—</span></div>
+<div>마지막 에러: <span id="dbgLastError" style="color:#FFB74D;word-break:break-all;">없음</span></div>
+</div>
+<div id="pendingBizList" style="display:flex;flex-direction:column;gap:8px;">
+<div style="text-align:center;padding:20px;color:var(--gray);font-size:13px;background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);">
+              ✅ 승인 대기 중인 업체가 없어요
+            </div>
+</div>
+</div>
+<!-- 등록된 업체 목록 — 관리자 전용 -->
+<div id="adminBizManageSection" style="margin-top:20px;display:none;">
+<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+<div style="font-family:var(--font-display);font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;">
+<input id="bizSelectAllChk" onchange="toggleBizSelectAll(this)" style="cursor:pointer;width:15px;height:15px;" type="checkbox"/>
+              등록된 업체 <span id="regCount" style="background:var(--green-main);color:#000;font-size:11px;padding:2px 9px;border-radius:20px;font-weight:700;">0</span>
+</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;">
+<button onclick="exportFullBackupExcel()" style="background:#10D67A;color:#fff;border:none;border-radius:8px;padding:7px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--font-body);" title="모든 데이터 백업">📊 전체 백업</button>
+<button onclick="exportBusinessesExcel()" style="background:#fff;border:1.5px solid #10D67A;color:#0D2B1A;border-radius:8px;padding:7px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--font-body);">📥 업체 엑셀</button>
+<button onclick="showBizTrashModal()" style="background:#FFF5F5;border:1.5px solid #FFB3B3;color:#C0392B;border-radius:8px;padding:7px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--font-body);">🗑️ 업체 휴지통 <span id="bizTrashCount" style="background:#C0392B;color:#fff;border-radius:10px;padding:1px 5px;font-size:9px;margin-left:3px;display:none;">0</span></button>
+</div>
+</div>
+<!-- 일괄 삭제 액션 바 (1건 이상 선택 시 표시) -->
+<div id="bizBulkActionBar" style="display:none;background:linear-gradient(135deg,#0D2B1A,#1F4D30);color:#fff;border-radius:12px;padding:10px 16px;margin-bottom:12px;align-items:center;gap:12px;box-shadow:0 4px 12px rgba(0,0,0,0.12);">
+<div style="font-size:12px;font-weight:700;">
+              ✅ <span id="bizSelectedCount">0</span>개 업체 선택됨
+            </div>
+<div style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;">
+<button onclick="bulkDeleteSelectedBiz()" style="background:#FF6B6B;color:#fff;border:none;border-radius:6px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-body);">🗑️ 휴지통으로 이동</button>
+<button onclick="clearBizSelection()" style="background:transparent;color:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.3);border-radius:6px;padding:6px 12px;font-size:11px;font-weight:600;cursor:pointer;font-family:var(--font-body);">선택 해제</button>
+</div>
+</div>
+<!-- 🆕 v104: QR 시트 인쇄 — 폼텍 QRP-3990 (40×40mm A4 28칸 · 방수) -->
+<div style="background:#fff;border:1.5px solid var(--green-light);border-radius:12px;padding:12px 16px;margin-bottom:12px;display:flex;align-items:center;gap:12px;">
+<div style="width:42px;height:42px;background:linear-gradient(135deg,#0F2419,#1F4D30);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+<span style="font-size:20px;">🏷️</span>
+</div>
+<div style="flex:1;min-width:0;">
+<div style="font-size:13px;font-weight:800;color:var(--green-dark);letter-spacing:-0.02em;">QR 스티커 일괄 인쇄</div>
+<div style="font-size:10px;color:var(--gray);margin-top:2px;letter-spacing:-0.01em;">폼텍 QRP-3990 방수 라벨 (40×40mm · A4 28칸)</div>
+</div>
+<button onclick="openQrPrintModal()" style="background:#0F2419;color:#FFEB3B;border:none;border-radius:9px;padding:9px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-body);white-space:nowrap;flex-shrink:0;">🖨️ 인쇄</button>
+</div>
+<div id="regBizList" style="display:flex;flex-direction:column;gap:8px;">
+<div style="text-align:center;padding:30px;color:var(--gray);font-size:13px;background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);">
+              📭 등록된 업체가 없어요. 위 양식을 작성하고 등록해주세요!
+            </div>
+</div>
+<!-- 삭제된 업체 복구 섹션 -->
+<div id="deletedBizSection" style="display:none;margin-top:20px;">
+<div style="font-family:var(--font-display);font-size:13px;font-weight:700;color:#888;margin-bottom:10px;display:flex;align-items:center;gap:8px;">
+              🗑️ 삭제된 업체 <span style="font-size:10px;color:#bbb;font-weight:400;">— 거래 이력 보존 · 복구 가능</span>
+</div>
+<div id="deletedBizList" style="display:flex;flex-direction:column;gap:7px;"></div>
+</div>
+</div>
+</div>
+</div><!-- /signupFormArea -->
+</div>

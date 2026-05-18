@@ -1,0 +1,20 @@
+<div class="panel" id="panel-hq-login" style="overflow-y:auto;width:100%;">
+<div style="max-width:420px;margin:60px auto;padding:0 24px;">
+<div style="text-align:center;margin-bottom:28px;">
+<div style="font-size:44px;margin-bottom:10px;">🏢</div>
+<div style="font-family:var(--font-display);font-size:22px;font-weight:800;letter-spacing:-0.03em;margin-bottom:5px;">본사 관리자 로그인</div>
+<div style="font-size:12px;color:var(--gray);">담당자만 접근 가능합니다</div>
+</div>
+<div class="card" style="padding:26px;">
+<div class="form-group">
+<label class="form-label">관리자 아이디</label>
+<input class="form-input" id="hqAdminId" onkeydown="if(event.key==='Enter')document.getElementById('hqAdminPw').focus()" placeholder="관리자 아이디" style="font-size:14px;"/>
+</div>
+<div class="form-group">
+<label class="form-label">비밀번호</label>
+<input class="form-input" id="hqAdminPw" onkeydown="if(event.key==='Enter')hqAdminLogin()" placeholder="비밀번호" style="font-size:14px;" type="password"/>
+</div>
+<button class="btn btn-primary" onclick="hqAdminLogin()" style="width:100%;justify-content:center;padding:13px;font-size:14px;">🔐 로그인</button>
+</div>
+</div>
+</div>
