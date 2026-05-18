@@ -1,0 +1,202 @@
+<div class="panel" id="panel-esg" style="width:100%;">
+<div style="padding:22px 28px;">
+<!-- CERTIFICATION 인트로 헤더 -->
+<div style="background:linear-gradient(135deg,#0D2B1A,#1F4D30);border-radius:16px;padding:20px 24px;color:#fff;margin-bottom:18px;box-shadow:var(--shadow);">
+<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+<div>
+<div style="font-family:var(--font-display);font-size:18px;font-weight:800;letter-spacing:-0.02em;">🏅 CERTIFICATION CENTER</div>
+<div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:3px;">ESG 포인트 · ISCC EU 자가선언서 · 탄소감축 인증서 · 친환경 급식소 인증</div>
+</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;">
+<span style="background:rgba(76,175,80,0.25);border:1px solid rgba(76,175,80,0.5);color:#A5D6A7;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;">🌿 ESG 포인트</span>
+<span style="background:rgba(255,193,7,0.25);border:1px solid rgba(255,193,7,0.5);color:#FFE082;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;">🌍 ISCC EU</span>
+<span style="background:rgba(33,150,243,0.25);border:1px solid rgba(33,150,243,0.5);color:#90CAF9;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;">📄 탄소감축</span>
+</div>
+</div>
+</div>
+<!-- 🆕 CO₂ 계산식 안내 -->
+<div class="card" style="margin-bottom:18px;background:linear-gradient(135deg,#E8F5E9,#C8E6C9);border:1.5px solid #81C784;">
+<div style="padding:16px 20px;">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+<div style="font-size:24px;">📊</div>
+<div>
+<div style="font-family:var(--font-display);font-size:15px;font-weight:800;color:#1B5E20;">CO₂ 절감량 계산식</div>
+<div style="font-size:11px;color:#388E3C;margin-top:2px;">투명한 기준으로 환경 기여도를 측정합니다</div>
+</div>
+</div>
+<div style="background:#fff;border-radius:9px;padding:12px 14px;font-size:12px;line-height:1.7;color:#1B5E20;border:1px solid #C8E6C9;">
+<div style="font-weight:800;margin-bottom:6px;font-family:var(--font-display);font-size:14px;">🌍 기준 공식</div>
+<div>• <strong>폐유 1캔 = 16.5kg</strong> (꽉 찬 1캔)</div>
+<div>• <strong>폐유 1L 처리 = CO₂ 0.7kg 절감</strong> (바이오디젤 환산 기준)</div>
+<div style="margin-top:8px;padding-top:8px;border-top:1px dashed #A5D6A7;">
+<strong>예시:</strong> 폐유 5캔 수거 → CO₂ <strong style="color:#0FA366;">57.75kg 절감</strong>
+<span style="color:#666;">(승용차 약 250km 주행 배출량 상쇄)</span>
+</div>
+</div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
+<!-- 누적 ESG 포인트 -->
+<div class="esg-strip" style="grid-column:1/-1;">
+<div>
+<div style="font-size:10px;color:rgba(255,255,255,0.7)">원주 누적 ESG 포인트</div>
+<div class="esg-points" id="esg_total_pts">0</div>
+<div style="font-size:10px;color:rgba(255,255,255,0.7)">pts · 전체 수거/납품 실적 기반</div>
+</div>
+<div style="text-align:right">
+<div style="font-size:9px;color:rgba(255,255,255,0.5);margin-bottom:4px">현재 등급</div>
+<div class="esg-tier-badge" id="esg_tier_badge">🥉 브론즈</div>
+</div>
+</div>
+<!-- 적립 기준 -->
+<div class="card">
+<div class="card-header" style="background:var(--green-pale);border-bottom:none;">
+<div class="card-title" style="color:var(--green-dark);">🌿 ESG 포인트 적립 기준</div>
+</div>
+<div style="padding:16px 20px;">
+<div style="background:var(--green-pale);border-radius:10px;padding:18px;border:1.5px solid var(--green-light);margin-bottom:12px;">
+<div style="font-size:12px;color:var(--green-dark);font-weight:700;margin-bottom:8px;">🗑️ 폐식용유 수거 시</div>
+<div style="font-family:var(--font-display);font-size:28px;font-weight:800;color:var(--green-dark);letter-spacing:-0.03em;">+144 pts / 캔</div>
+<div style="font-size:11px;color:var(--gray);margin-top:8px;line-height:1.7;">
+                  • 1캔(16.5kg) × 8.75pts/kg = <strong>144pts</strong><br/>
+                  • 탄소 감축: 1캔당 <strong style="color:var(--green-dark);">11.55 kg CO₂</strong>
+</div>
+</div>
+<div style="background:var(--cream);border-radius:9px;padding:10px 14px;font-size:11px;color:var(--gray);">
+                💡 폐유 수거량이 많을수록 ESG 포인트와 탄소 감축량이 함께 올라가요
+              </div>
+</div>
+</div>
+<!-- 이번달 현황 -->
+<div class="card">
+<div class="card-header"><div class="card-title">📊 이번달 ESG 현황</div></div>
+<div style="padding:16px 20px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+<div style="background:var(--cream);border-radius:10px;padding:14px;text-align:center;">
+<div style="font-size:10px;color:var(--gray);margin-bottom:4px;">🗑️ 폐유 수거</div>
+<div id="esg_month_waste_cans" style="font-family:var(--font-display);font-size:22px;font-weight:800;color:var(--green-dark);">0</div>
+<div style="font-size:10px;color:var(--gray);">캔</div>
+</div>
+<div style="background:var(--green-pale);border-radius:10px;padding:14px;text-align:center;border:1px solid var(--green-light);">
+<div style="font-size:10px;color:var(--gray);margin-bottom:4px;">🌿 이번달 적립</div>
+<div id="esg_month_pts" style="font-family:var(--font-display);font-size:22px;font-weight:800;color:var(--green-dark);">0</div>
+<div style="font-size:10px;color:var(--gray);">pts</div>
+</div>
+<div style="background:#E8F5E9;border-radius:10px;padding:14px;text-align:center;border:1px solid #A5D6A7;">
+<div style="font-size:10px;color:var(--gray);margin-bottom:4px;">🌍 CO₂ 절감</div>
+<div id="esg_month_co2" style="font-family:var(--font-display);font-size:22px;font-weight:800;color:#2E7D32;">0</div>
+<div style="font-size:10px;color:var(--gray);">kg</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 🆕 월간 CO2 절감 랭킹 -->
+<div class="card" style="margin-bottom:20px;background:linear-gradient(135deg,#FFF8E1,#FFECB3);border:2px solid #FFD54F;">
+<div class="card-header" style="background:linear-gradient(90deg,#FFA726,#E65100);">
+<div class="card-title" style="color:#fff;">🏆 월간 CO₂ 절감 랭킹</div>
+<div style="font-size:10px;color:rgba(255,255,255,0.85);">매월 상위 1~3등 업체에 특별 혜택!</div>
+</div>
+<div style="padding:18px 20px;">
+<div id="esgMonthlyRanking" style="display:flex;flex-direction:column;gap:8px;">
+<div style="text-align:center;padding:18px;color:#888;font-size:12px;">집계 중...</div>
+</div>
+<div style="margin-top:14px;padding:12px 14px;background:rgba(230,81,0,0.08);border-radius:9px;font-size:11px;color:#E65100;line-height:1.6;">
+              🎁 <strong>혜택 안내</strong><br/>
+              🥇 1등: 다음 달 식용유 1캔 무료 / 🥈 2등: 5,000pt / 🥉 3등: 3,000pt
+            </div>
+</div>
+</div>
+<!-- 포인트 사용처 -->
+<div class="card">
+<div class="card-header"><div class="card-title">🎁 포인트 사용처</div></div>
+<div class="card-body">
+<div class="esg-reward-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:9px">
+<div style="border:2px solid var(--green-light);border-radius:var(--radius-sm);padding:13px;text-align:center"><div style="font-size:22px;margin-bottom:4px">🛵</div><div style="font-weight:700;margin-bottom:3px;font-size:12px">배민 B마트</div><div style="font-size:10px;color:var(--gray)">1pt = 1원 식자재 구매</div><button class="btn btn-primary" style="margin-top:7px;width:100%;justify-content:center;font-size:10px">전환하기</button></div>
+<div style="border:2px solid var(--green-light);border-radius:var(--radius-sm);padding:13px;text-align:center"><div style="font-size:22px;margin-bottom:4px">💳</div><div style="font-weight:700;margin-bottom:3px;font-size:12px">원주 지역화폐</div><div style="font-size:10px;color:var(--gray)">땡겨요 / 강원페이 연동</div><button class="btn btn-primary" style="margin-top:7px;width:100%;justify-content:center;font-size:10px">전환하기</button></div>
+<div style="border:2px solid var(--green-light);border-radius:var(--radius-sm);padding:13px;text-align:center"><div style="font-size:22px;margin-bottom:4px">🫙</div><div style="font-weight:700;margin-bottom:3px;font-size:12px">식용유 재구매</div><div style="font-size:10px;color:var(--gray)">1,000pt당 1,000원 할인</div><button class="btn btn-primary" style="margin-top:7px;width:100%;justify-content:center;font-size:10px">적용하기</button></div>
+</div>
+</div>
+<!-- 업체별 ESG 현황 (관리자용) -->
+<div class="card" id="esgBizTableCard" style="margin-top:16px;display:none;">
+<div class="card-header" style="display:flex;align-items:center;justify-content:space-between;">
+<div class="card-title">🏪 업체별 ESG 현황</div>
+<button onclick="generateEsgReport()" style="background:#1F4D30;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-body);">📄 ESG 레포트 발행</button>
+</div>
+<div style="overflow-x:auto;">
+<table style="width:100%;border-collapse:collapse;font-size:12px;">
+<thead>
+<tr style="background:#F0FBF5;border-bottom:2px solid var(--green-light);">
+<th style="padding:10px 14px;text-align:left;font-weight:700;color:var(--green-dark);">업체명</th>
+<th style="padding:10px 14px;text-align:center;font-weight:700;color:var(--green-dark);">♻️ 폐유수거(캔)</th>
+<th style="padding:10px 14px;text-align:center;font-weight:700;color:var(--green-dark);">⚖️ 수거량(kg)</th>
+<th style="padding:10px 14px;text-align:center;font-weight:700;color:var(--green-dark);">🌍 CO₂감축(kg)</th>
+<th style="padding:10px 14px;text-align:center;font-weight:700;color:var(--green-dark);">⭐ ESG포인트</th>
+<th style="padding:10px 14px;text-align:center;font-weight:700;color:var(--green-dark);">인증서</th>
+<th style="padding:10px 14px;text-align:center;font-weight:700;color:var(--green-dark);">ISCC</th>
+</tr>
+</thead>
+<tbody id="esgBizTableBody">
+<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--gray);">데이터 로딩 중...</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- 🌿 ESG 포인트 이력 (필터 + 누적 잔액) -->
+<div class="card" style="margin-top:18px;">
+<div class="card-header" style="background:#F0FBF5;border-bottom:1.5px solid #C5E1CC;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+<div>
+<div class="card-title" style="color:var(--green-dark);">🌿 ESG 포인트 이력</div>
+<div style="font-size:10px;color:var(--gray);">기간/업체별 필터 · 적립·차감 내역</div>
+</div>
+<button id="esgDeductBtn" onclick="showDeductPointsModal()" style="display:none;background:#FF6B00;color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-body);">➖ 포인트 차감</button>
+</div>
+<div style="padding:14px 18px;">
+<!-- 필터 영역 -->
+<div id="esgPointFilters" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:flex-end;">
+<div style="flex:1;min-width:120px;">
+<div style="font-size:10px;font-weight:700;color:var(--gray);margin-bottom:4px;">📅 시작일</div>
+<input id="esgPointFromDate" onchange="renderEsgPointHistory()" style="width:100%;padding:8px;border:1.5px solid #DDE8E1;border-radius:7px;font-size:12px;font-family:var(--font-body);box-sizing:border-box;" type="date"/>
+</div>
+<div style="flex:1;min-width:120px;">
+<div style="font-size:10px;font-weight:700;color:var(--gray);margin-bottom:4px;">📅 종료일</div>
+<input id="esgPointToDate" onchange="renderEsgPointHistory()" style="width:100%;padding:8px;border:1.5px solid #DDE8E1;border-radius:7px;font-size:12px;font-family:var(--font-body);box-sizing:border-box;" type="date"/>
+</div>
+<div style="flex:1.5;min-width:140px;">
+<div style="font-size:10px;font-weight:700;color:var(--gray);margin-bottom:4px;">🏪 업체</div>
+<select id="esgPointBizFilter" onchange="renderEsgPointHistory()" style="width:100%;padding:8px;border:1.5px solid #DDE8E1;border-radius:7px;font-size:12px;font-family:var(--font-body);background:#fff;box-sizing:border-box;">
+<option value="">전체 업체</option>
+</select>
+</div>
+<div style="flex:1;min-width:100px;">
+<div style="font-size:10px;font-weight:700;color:var(--gray);margin-bottom:4px;">📌 종류</div>
+<select id="esgPointKindFilter" onchange="renderEsgPointHistory()" style="width:100%;padding:8px;border:1.5px solid #DDE8E1;border-radius:7px;font-size:12px;font-family:var(--font-body);background:#fff;box-sizing:border-box;">
+<option value="">전체</option>
+<option value="earned">⭐ 적립만</option>
+<option value="used">💸 차감만</option>
+</select>
+</div>
+<button onclick="resetEsgPointFilters()" style="padding:8px 14px;background:#F5F5F5;border:1.5px solid #DDE8E1;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;color:#666;">↻ 초기화</button>
+</div>
+<!-- 요약 (필터 적용 결과) -->
+<div id="esgPointSummary" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;">
+<div style="background:#F0FBF5;border-radius:8px;padding:10px;text-align:center;border:1px solid #C5E1CC;">
+<div style="font-size:10px;color:var(--gray);margin-bottom:3px;">⭐ 적립 합계</div>
+<div id="esgPointEarnedSum" style="font-family:var(--font-display);font-size:16px;font-weight:800;color:var(--green-dark);">0 pt</div>
+</div>
+<div style="background:#FFF4F0;border-radius:8px;padding:10px;text-align:center;border:1px solid #FFD0BD;">
+<div style="font-size:10px;color:var(--gray);margin-bottom:3px;">💸 차감 합계</div>
+<div id="esgPointUsedSum" style="font-family:var(--font-display);font-size:16px;font-weight:800;color:#FF6B00;">0 pt</div>
+</div>
+<div style="background:#E8F4FE;border-radius:8px;padding:10px;text-align:center;border:1px solid #B3D8F2;">
+<div style="font-size:10px;color:var(--gray);margin-bottom:3px;">💰 잔액</div>
+<div id="esgPointBalance" style="font-family:var(--font-display);font-size:16px;font-weight:800;color:#1565C0;">0 pt</div>
+</div>
+</div>
+<!-- 이력 리스트 -->
+<div id="esgPointHistoryList" style="max-height:480px;overflow-y:auto;">
+<div style="text-align:center;padding:24px;color:var(--gray);font-size:12px;">로딩 중...</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>

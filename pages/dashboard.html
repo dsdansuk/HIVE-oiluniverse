@@ -1,0 +1,158 @@
+<div class="panel" id="panel-dashboard">
+<div class="alert-banner" id="alertBanner" style="display:none;">
+<span>⚡ 자동발주 알림:</span>
+<span id="alertBannerContent"></span>
+</div>
+<div>
+<!-- 관리자 대시보드 헤더 -->
+<div style="background:#0D0D0D;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;">
+<div>
+<div style="display:inline-flex;align-items:center;gap:6px;background:rgba(61,170,110,0.15);border:1px solid rgba(61,170,110,0.3);border-radius:20px;padding:3px 10px;margin-bottom:8px;">
+<div style="width:5px;height:5px;background:var(--green-main);border-radius:50%;animation:pulse 2s infinite;"></div>
+<span style="font-size:10px;color:var(--green-main);font-weight:700;">LIVE · 원주 베타</span>
+</div>
+<div style="font-family:var(--font-display);font-size:18px;font-weight:800;color:#fff;letter-spacing:-0.03em;">관리자 대시보드</div>
+</div>
+</div>
+<div style="padding:20px 28px 28px;">
+<!-- KPI 카드 -->
+<div id="dashKpiScroll" style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:18px;">
+<div style="background:var(--white);border-radius:14px;padding:16px;box-shadow:var(--shadow);border:1px solid var(--gray-light);">
+<div style="font-size:11px;color:var(--gray);font-weight:600;margin-bottom:8px;">📍 등록 업체</div>
+<div id="db_biz_count" style="font-family:var(--font-display);font-size:28px;font-weight:800;letter-spacing:-0.05em;color:var(--black);line-height:1;">0</div>
+<div style="font-size:10px;color:var(--green-dark);margin-top:5px;font-weight:600;">원주시 전체</div>
+</div>
+<div style="background:var(--white);border-radius:14px;padding:16px;box-shadow:var(--shadow);border:1px solid var(--gray-light);">
+<div style="font-size:11px;color:var(--gray);font-weight:600;margin-bottom:8px;">🫙 이번달 납품</div>
+<div id="db_oil_delivery" style="font-family:var(--font-display);font-size:28px;font-weight:800;letter-spacing:-0.05em;color:var(--black);line-height:1;">0<span style="font-size:13px;font-weight:500"> 캔</span></div>
+<div id="db_oil_sub" style="font-size:10px;color:var(--gray);margin-top:5px;font-weight:600;">납품 이력 없음</div>
+</div>
+<div style="background:var(--white);border-radius:14px;padding:16px;box-shadow:var(--shadow);border:1px solid var(--gray-light);">
+<div style="font-size:11px;color:var(--gray);font-weight:600;margin-bottom:8px;">♻️ 폐유 수거</div>
+<div id="db_waste_total" style="font-family:var(--font-display);font-size:28px;font-weight:800;letter-spacing:-0.05em;color:var(--black);line-height:1;">0<span style="font-size:13px;font-weight:500"> 캔</span></div>
+<div id="db_waste_sub" style="font-size:10px;color:var(--gray);margin-top:5px;font-weight:600;">수거 이력 없음</div>
+</div>
+<div style="background:#1F4D30;border-radius:14px;padding:16px;box-shadow:var(--shadow);">
+<div style="font-size:11px;color:rgba(255,255,255,0.5);font-weight:600;margin-bottom:8px;">🌿 CO₂ 절감</div>
+<div id="db_co2" style="font-family:var(--font-display);font-size:28px;font-weight:800;letter-spacing:-0.05em;color:var(--green-main);line-height:1;">0<span style="font-size:13px;font-weight:500"> kg</span></div>
+<div style="font-size:10px;color:rgba(255,255,255,0.4);margin-top:5px;font-weight:600;">월간 탄소 감축</div>
+</div>
+<div style="background:#05C46B;border-radius:14px;padding:16px;box-shadow:var(--shadow);">
+<div style="font-size:11px;color:rgba(255,255,255,0.6);font-weight:600;margin-bottom:8px;">⭐ ESG 포인트</div>
+<div id="db_esg_pts" style="font-family:var(--font-display);font-size:28px;font-weight:800;letter-spacing:-0.05em;color:#fff;line-height:1;">0</div>
+<div style="font-size:10px;color:rgba(255,255,255,0.5);margin-top:5px;font-weight:600;">pts · 전체 합산</div>
+</div>
+</div>
+<!-- 🆕 v126: 프랜차이즈 종합 현황 카드 -->
+<div style="background:linear-gradient(135deg,#0F2419 0%,#1F4D30 100%);border-radius:16px;padding:18px 22px;margin-bottom:14px;color:#fff;position:relative;overflow:hidden;">
+<div style="position:absolute;top:-30px;right:-20px;font-size:120px;opacity:0.06;">🏪</div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;position:relative;z-index:1;flex-wrap:wrap;gap:8px;">
+<div>
+<div style="font-size:10px;font-weight:800;color:rgba(255,235,59,0.85);letter-spacing:0.1em;">FRANCHISE OVERVIEW</div>
+<div style="font-family:var(--font-display);font-size:16px;font-weight:800;letter-spacing:-0.02em;">🏪 프랜차이즈 종합 현황</div>
+</div>
+<button onclick="showPanel('franchise-admin',null)" style="background:#FFEB3B;color:#0F2419;border:none;border-radius:8px;padding:7px 14px;font-size:11.5px;font-weight:800;cursor:pointer;font-family:var(--font-body);">⚙️ 관리하기 →</button>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;position:relative;z-index:1;">
+<div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:12px;">
+<div style="font-size:10px;opacity:0.75;font-weight:600;">등록 브랜드</div>
+<div id="dbFrBrandCount" style="font-family:var(--font-display);font-size:22px;font-weight:800;margin-top:3px;">0</div>
+<div id="dbFrBrandSub" style="font-size:9.5px;opacity:0.6;margin-top:1px;">활성 0개</div>
+</div>
+<div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:12px;">
+<div style="font-size:10px;opacity:0.75;font-weight:600;">총 가맹점</div>
+<div id="dbFrStoreCount" style="font-family:var(--font-display);font-size:22px;font-weight:800;margin-top:3px;color:#FFEB3B;">0</div>
+<div id="dbFrStoreSub" style="font-size:9.5px;opacity:0.6;margin-top:1px;">활성 0개</div>
+</div>
+<div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:12px;">
+<div style="font-size:10px;opacity:0.75;font-weight:600;">📦 식용유 재고</div>
+<div id="dbFrTotalNewOil" style="font-family:var(--font-display);font-size:22px;font-weight:800;margin-top:3px;">0</div>
+<div style="font-size:9.5px;opacity:0.6;margin-top:1px;">캔 · 가맹점 합계</div>
+</div>
+<div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:12px;">
+<div style="font-size:10px;opacity:0.75;font-weight:600;">♻️ 폐유 재고</div>
+<div id="dbFrTotalWaste" style="font-family:var(--font-display);font-size:22px;font-weight:800;margin-top:3px;color:#26A69A;">0</div>
+<div id="dbFrTotalWasteSub" style="font-size:9.5px;opacity:0.6;margin-top:1px;">캔 · 회수 대기</div>
+</div>
+<div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:12px;">
+<div style="font-size:10px;opacity:0.75;font-weight:600;">📊 월 발주</div>
+<div id="dbFrMonthOrders" style="font-family:var(--font-display);font-size:22px;font-weight:800;margin-top:3px;">0</div>
+<div style="font-size:9.5px;opacity:0.6;margin-top:1px;">건 · 이번 달</div>
+</div>
+<div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:12px;">
+<div style="font-size:10px;opacity:0.75;font-weight:600;">🌍 월 CO₂ 절감</div>
+<div id="dbFrMonthCO2" style="font-family:var(--font-display);font-size:22px;font-weight:800;margin-top:3px;color:#A5D6A7;">0</div>
+<div style="font-size:9.5px;opacity:0.6;margin-top:1px;">kg · 가맹점 폐유 기준</div>
+</div>
+</div>
+</div>
+<!-- 최근 수거·발주 이력 -->
+<div style="background:var(--white);border-radius:16px;padding:18px 20px;box-shadow:var(--shadow);border:1px solid var(--gray-light);">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+<div style="font-size:13px;font-weight:800;letter-spacing:-0.02em;">📋 최근 수거 · 발주</div>
+<button onclick="showPanel('history',null)" style="background:none;border:none;font-size:11px;color:var(--green-dark);font-weight:700;cursor:pointer;">전체보기 →</button>
+</div>
+<div id="dbRecentList">
+<div style="text-align:center;padding:20px;color:var(--gray);font-size:12px;">등록된 이력이 없어요</div>
+</div>
+</div>
+<!-- ESG 리포트 -->
+<div style="background:var(--white);border-radius:16px;padding:18px 20px;box-shadow:var(--shadow);border:1px solid var(--gray-light);margin-top:14px;">
+<div style="font-size:13px;font-weight:800;letter-spacing:-0.02em;margin-bottom:14px;">🌿 ESG 환경 리포트</div>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
+<div style="background:#F0FBF5;border-radius:12px;padding:14px;text-align:center;">
+<div style="font-size:10px;color:var(--gray);font-weight:600;margin-bottom:6px;">♻️ 누적 폐유 수거</div>
+<div id="hq_waste_cans" style="font-family:var(--font-display);font-size:18px;font-weight:800;color:#1F4D30;">0캔</div>
+</div>
+<div style="background:#FFF8E7;border-radius:12px;padding:14px;text-align:center;">
+<div style="font-size:10px;color:var(--gray);font-weight:600;margin-bottom:6px;">🛢️ 바이오디젤 생산</div>
+<div id="hq_biodiesel" style="font-family:var(--font-display);font-size:18px;font-weight:800;color:#B8860B;">0 L</div>
+</div>
+<div style="background:#E8F5E9;border-radius:12px;padding:14px;text-align:center;">
+<div style="font-size:10px;color:var(--gray);font-weight:600;margin-bottom:6px;">🌍 CO₂ 감축량</div>
+<div id="hq_esg_co2_report" style="font-family:var(--font-display);font-size:18px;font-weight:800;color:#2E7D32;">0 kg</div>
+</div>
+<div style="background:#E3F2FD;border-radius:12px;padding:14px;text-align:center;">
+<div style="font-size:10px;color:var(--gray);font-weight:600;margin-bottom:6px;">🏪 참여 업체</div>
+<div id="hq_esg_biz_report" style="font-family:var(--font-display);font-size:18px;font-weight:800;color:#1565C0;">0 개</div>
+</div>
+</div>
+<button onclick="generateEsgReport()" style="width:100%;margin-top:12px;background:#1F4D30;color:#fff;border:none;border-radius:10px;padding:11px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-body);">📄 ESG 레포트 발행</button>
+</div>
+<!-- 🆕 탄소저감 기부 위젯 (관리자) -->
+<div style="background:linear-gradient(135deg,#1B5E20 0%,#0FA366 100%);border-radius:16px;padding:18px 20px;margin-top:14px;color:#fff;position:relative;overflow:hidden;">
+<div style="position:absolute;top:-30px;right:-30px;width:120px;height:120px;background:rgba(255,255,255,0.06);border-radius:50%;"></div>
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;position:relative;z-index:1;">
+<div style="font-size:30px;">🌱</div>
+<div style="flex:1;">
+<div style="font-family:var(--font-display);font-size:15px;font-weight:800;">탄소저감 공동 기부</div>
+<div style="font-size:11px;opacity:0.85;margin-top:1px;">참여 업체 일동이 함께하는 매월 공동 기부</div>
+</div>
+<button onclick="openDonationDetailModal()" style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);color:#fff;border-radius:8px;padding:6px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--font-body);">상세보기</button>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;position:relative;z-index:1;">
+<div style="background:rgba(255,255,255,0.22);border-radius:10px;padding:10px;text-align:center;">
+<div style="font-size:9px;opacity:0.85;">이번 달 누적</div>
+<div id="hqDonationMonth" style="font-family:var(--font-display);font-size:18px;font-weight:800;margin-top:2px;color:#FFEB3B;">0원</div>
+</div>
+<div style="background:rgba(255,255,255,0.22);border-radius:10px;padding:10px;text-align:center;">
+<div style="font-size:9px;opacity:0.85;">참여 업체</div>
+<div id="hqDonationBiz" style="font-family:var(--font-display);font-size:18px;font-weight:800;margin-top:2px;">0 개</div>
+</div>
+<div style="background:rgba(255,255,255,0.22);border-radius:10px;padding:10px;text-align:center;">
+<div style="font-size:9px;opacity:0.85;">전체 누적</div>
+<div id="hqDonationTotal" style="font-family:var(--font-display);font-size:18px;font-weight:800;margin-top:2px;color:#FFEB3B;">0원</div>
+</div>
+</div>
+<div style="font-size:10px;opacity:0.85;margin-top:10px;text-align:center;line-height:1.5;position:relative;z-index:1;">
+              💚 <strong>"식용유니버스 참여 업체 일동"</strong> 명의로 매월 기부됩니다
+            </div>
+</div>
+</div>
+</div>
+<!-- 🔧 빌드 버전 표시 (관리자만, 작게) -->
+<div id="adminBuildVersion" style="text-align:center;padding:14px 0 20px 0;font-size:10px;color:#999;font-family:var(--font-body);letter-spacing:0.02em;">
+<span style="opacity:0.6;">빌드</span>
+<span id="adminBuildVersionText" style="margin-left:4px;font-family:monospace;color:#666;">—</span>
+</div>
+</div>

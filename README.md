@@ -1,23 +1,59 @@
-# HIVEOIL 분리본 v2
+# HIVEOIL 페이지 분리본
+
+## 구조
+- `index.html`: 공통 레이아웃, 사이드바, 상단 외부 라이브러리 로드
+- `pages/*.html`: 기존 `panel-*` 화면을 페이지별로 분리
+- `assets/css/styles.css`: 기존 `<style>` 전체 분리
+- `assets/js/app.js`: 기존 인라인 JavaScript 전체 분리
+- `assets/js/page-routes.js`: 페이지 조각 목록
+- `assets/js/load-pages.js`: `app.js` 실행 전에 페이지 조각을 먼저 삽입
 
 ## 실행 방법
-`fetch()`로 `pages/*.html`을 불러오기 때문에 `index.html`을 더블클릭하지 말고 로컬 서버에서 실행하세요.
+브라우저에서 `index.html`을 더블클릭하면 페이지 조각 로딩이 막힐 수 있습니다. 아래처럼 로컬 서버로 실행하세요.
 
 ```bash
 python -m http.server 5500
 ```
-브라우저에서 `http://localhost:5500` 접속
 
-## 구조
-- `index.html`: 공통 레이아웃/사이드바/상단바/페이지 로더
-- `pages/*.html`: `panel-*` 기준 페이지 조각 27개
-- `assets/css/styles.css`: 기존 CSS 분리
-- `assets/js/init.js`: 빌드/전역 에러/모바일 새로고침 방지 초기 스크립트
-- `assets/js/boot.js`: 페이지 조각 로딩 후 `app.js` 실행
-- `assets/js/app.js`: 기존 기능 JS + 카카오맵 로딩 보강
+접속:
 
-## 카카오맵 안 되는 주요 원인과 수정
-1. 분리 후 `app.js`가 `pages/map.html`보다 먼저 실행되면 `#naverMap`이 없어 지도 초기화가 실패합니다. → `boot.js`가 모든 페이지를 먼저 로드한 뒤 `app.js`를 실행하도록 수정했습니다.
-2. 카카오 SDK가 완전히 준비되기 전 `new kakao.maps.Map()`을 호출하면 실패합니다. → SDK를 `autoload=false`로 명시하고, `kakao.maps.load()` 완료 후 지도 생성하도록 보강했습니다.
-3. `index.html`을 파일 더블클릭으로 열면 페이지 조각 `fetch()`와 카카오 SDK 도메인 제한 때문에 실패할 수 있습니다. → 서버 실행 필요.
-4. 카카오 개발자 콘솔의 JavaScript 키 도메인에 실제 접속 도메인/포트가 등록되어 있어야 합니다. 예: `http://localhost:5500`, GitHub Pages 도메인 등.
+```text
+http://localhost:5500
+```
+
+## 분리 기준
+총 33개 패널을 분리했습니다.
+
+- `panel-owner-dash` → `pages/owner-dash.html`
+- `panel-owner-login` → `pages/owner-login.html`
+- `panel-driver-login` → `pages/driver-login.html`
+- `panel-hq-login` → `pages/hq-login.html`
+- `panel-fr-hq-login` → `pages/fr-hq-login.html`
+- `panel-fr-hq-dashboard` → `pages/fr-hq-dashboard.html`
+- `panel-fr-store-signup` → `pages/fr-store-signup.html`
+- `panel-dashboard` → `pages/dashboard.html`
+- `panel-map` → `pages/map.html`
+- `panel-billing` → `pages/billing.html`
+- `panel-waste` → `pages/waste.html`
+- `panel-order` → `pages/order.html`
+- `panel-owner-history` → `pages/owner-history.html`
+- `panel-history` → `pages/history.html`
+- `panel-price` → `pages/price.html`
+- `panel-price-view` → `pages/price-view.html`
+- `panel-esg` → `pages/esg.html`
+- `panel-owner` → `pages/owner.html`
+- `panel-qr` → `pages/qr.html`
+- `panel-consumer` → `pages/consumer.html`
+- `panel-franchise-admin` → `pages/franchise-admin.html`
+- `panel-franchise-brand-detail` → `pages/franchise-brand-detail.html`
+- `panel-esg-school` → `pages/esg-school.html`
+- `panel-school-admin` → `pages/school-admin.html`
+- `panel-esg-franchise` → `pages/esg-franchise.html`
+- `panel-support` → `pages/support.html`
+- `panel-privacy` → `pages/privacy.html`
+- `panel-terms` → `pages/terms.html`
+- `panel-apply` → `pages/apply.html`
+- `panel-register` → `pages/register.html`
+- `panel-admin` → `pages/admin.html`
+- `panel-security` → `pages/security.html`
+- `panel-schedule` → `pages/schedule.html`
