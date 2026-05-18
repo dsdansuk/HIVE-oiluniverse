@@ -1,0 +1,61 @@
+<div class="panel" id="panel-history" style="width:100%;">
+<div class="history-layout">
+<div class="history-tabs">
+<button class="h-tab active" onclick="switchHistTab(this,'all')">전체</button>
+<button class="h-tab" onclick="switchHistTab(this,'waste')">폐유 수거</button>
+<button class="h-tab" onclick="switchHistTab(this,'order')">식용유 발주</button>
+<button class="h-tab" onclick="switchHistTab(this,'auto')" style="display:none">자동 처리</button>
+<button class="admin-only" onclick="exportHistoryExcel()" style="margin-left:auto;background:#fff;border:1.5px solid #10D67A;color:#0D2B1A;border-radius:8px;padding:7px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--font-body);display:none;" title="이력을 엑셀로 다운로드">📥 엑셀</button>
+<button class="admin-only" onclick="showHistoryPurgeDialog()" style="background:#FFF5F5;border:1.5px solid #FFCDD2;color:#C0392B;border-radius:8px;padding:7px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--font-body);display:none;" title="DB에서 영구 삭제 (휴지통 안 거침)">🧹 정리</button>
+<button onclick="showHistoryTrash()" style="background:#FFF5F5;border:1.5px solid #FFB3B3;color:#C0392B;border-radius:8px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-body);">🗑️ 휴지통 <span id="histTrashCount" style="background:#C0392B;color:#fff;border-radius:10px;padding:1px 6px;font-size:10px;margin-left:4px;display:none;">0</span></button>
+</div>
+<!-- 🔍 필터 영역 -->
+<div id="historyFilterBar" style="background:#fff;border-radius:12px;padding:12px 14px;margin-bottom:12px;box-shadow:var(--shadow);border:1px solid var(--gray-light);">
+<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+<span style="font-size:11px;font-weight:700;color:#666;letter-spacing:0.05em;">🔍 필터</span>
+<select id="histFilterBiz" onchange="renderHistory(_currentHistTab)" style="height:32px;border:1px solid var(--gray-light);border-radius:6px;padding:0 8px;font-size:12px;font-family:var(--font-body);min-width:140px;">
+<option value="">전체 업체</option>
+</select>
+<select id="histFilterMonth" onchange="renderHistory(_currentHistTab)" style="height:32px;border:1px solid var(--gray-light);border-radius:6px;padding:0 8px;font-size:12px;font-family:var(--font-body);min-width:120px;">
+<option value="">전체 기간</option>
+</select>
+<select id="histFilterProduct" onchange="renderHistory(_currentHistTab)" style="height:32px;border:1px solid var(--gray-light);border-radius:6px;padding:0 8px;font-size:12px;font-family:var(--font-body);min-width:130px;">
+<option value="">전체 품목</option>
+<option value="waste">♻️ 폐유 수거</option>
+<option value="soy">🫘 콩식용유</option>
+<option value="canola">🌿 카놀라유</option>
+<option value="corn">🌽 옥수수유</option>
+</select>
+<select id="histFilterStatus" onchange="renderHistory(_currentHistTab)" style="height:32px;border:1px solid var(--gray-light);border-radius:6px;padding:0 8px;font-size:12px;font-family:var(--font-body);min-width:110px;">
+<option value="">전체 상태</option>
+<option value="done">✅ 완료</option>
+<option value="pending">⏳ 진행중</option>
+<option value="cancelled">❌ 취소</option>
+</select>
+<button onclick="resetHistoryFilters()" style="background:#F5F5F5;border:1px solid #E5E5E5;color:#666;border-radius:6px;padding:6px 12px;font-size:11px;font-weight:600;cursor:pointer;font-family:var(--font-body);">초기화</button>
+<span id="histFilterResultCount" style="margin-left:auto;font-size:11px;color:#888;font-weight:600;"></span>
+</div>
+</div>
+<!-- 🗑️ 일괄 삭제 액션 바 (관리자 전용 — 1건 이상 선택 시 표시) -->
+<div class="admin-only" id="histBulkActionBar" style="display:none;background:linear-gradient(135deg,#0D2B1A,#1F4D30);color:#fff;border-radius:12px;padding:10px 16px;margin-bottom:12px;align-items:center;gap:12px;box-shadow:0 4px 12px rgba(0,0,0,0.12);">
+<div style="font-size:12px;font-weight:700;">
+            ✅ <span id="histSelectedCount">0</span>건 선택됨
+            <span id="histBulkBreakdown" style="font-size:10.5px;font-weight:500;color:rgba(255,255,255,0.7);margin-left:6px;"></span>
+</div>
+<div style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;">
+<button onclick="bulkDeleteSelected()" style="background:#FF6B6B;color:#fff;border:none;border-radius:6px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-body);">🗑️ 선택 항목 휴지통으로 (<span id="histBulkBtnCount">0</span>)</button>
+<button id="histBulkFilterBtn" onclick="bulkDeleteFiltered()" style="background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.4);border-radius:6px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-body);display:none;">🔍 현재 필터 결과 전체 삭제 (<span id="histBulkFilterCount">0</span>건)</button>
+<button onclick="clearHistorySelection()" style="background:transparent;color:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.3);border-radius:6px;padding:6px 12px;font-size:11px;font-weight:600;cursor:pointer;font-family:var(--font-body);">선택 해제</button>
+</div>
+</div>
+<div class="history-table-wrap">
+<table class="history-table">
+<thead><tr>
+<th class="admin-only" style="width:36px;text-align:center;display:none;"><input id="histSelectAllChk" onchange="toggleHistorySelectAll(this)" style="cursor:pointer;width:15px;height:15px;" type="checkbox"/></th>
+<th>날짜</th><th>업체명</th><th>구분</th><th>내용</th><th style="text-align:right;">단가</th><th style="text-align:center;">수량</th><th style="text-align:right;">금액</th><th>처리</th><th>상태</th><th>액션</th>
+</tr></thead>
+<tbody id="historyBody"></tbody>
+</table>
+</div>
+</div>
+</div>

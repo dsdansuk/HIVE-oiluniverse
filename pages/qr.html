@@ -1,0 +1,113 @@
+<div class="panel" id="panel-qr">
+<div style="max-width:480px;margin:0 auto;padding:28px 20px;">
+<!-- QR 생성 섹션 -->
+<div style="text-align:center;margin-bottom:24px;">
+<div style="font-family:var(--font-display);font-size:22px;font-weight:800;letter-spacing:-0.03em;margin-bottom:6px;">📱 QR 재고 입력</div>
+<div style="font-size:12px;color:var(--gray);">업체마다 QR 코드를 출력해 붙여두면<br/>스캔 한 번으로 재고를 바로 입력할 수 있어요</div>
+</div>
+<!-- QR 생성 카드 -->
+<div class="card" style="margin-bottom:16px;">
+<div class="card-header" style="background:#0D0D0D;border-bottom:none;">
+<div class="card-title" style="color:var(--white);">🖨️ 업체별 QR 코드 생성</div>
+<div style="font-size:10px;color:#555;">출력 후 업체에 부착</div>
+</div>
+<div style="padding:20px;">
+<div class="form-group" id="qrBizSelectWrap">
+<label class="form-label">업체 선택</label>
+<select class="form-select" id="qrBizSelect" onchange="generateQR()">
+<option value="">— 업체를 선택하세요 —</option>
+</select>
+</div>
+<div id="qrCodeArea" style="display:none;text-align:center;padding:20px 0;">
+<div id="qrCodeImg" style="display:inline-block;padding:16px;background:white;border-radius:12px;border:2px solid var(--green-light);margin-bottom:12px;"></div>
+<div id="qrBizLabel" style="font-family:var(--font-display);font-size:14px;font-weight:700;margin-bottom:4px;">—</div>
+<div style="font-size:11px;color:var(--gray);margin-bottom:14px;">이 QR을 스캔하면 재고 입력 화면이 열려요</div>
+<button class="btn btn-primary" onclick="printQR()" style="width:100%;justify-content:center;padding:11px;">🖨️ QR 코드 인쇄</button>
+</div>
+<div id="qrEmptyMsg" style="text-align:center;padding:20px;color:var(--gray);font-size:12px;">
+              📭 먼저 업체를 등록하고 선택해주세요
+            </div>
+</div>
+</div>
+<!-- QR 스캔 시뮬레이션 (실제 입력 화면) -->
+<div class="card" style="margin-bottom:16px;">
+<div class="card-header">
+<div class="card-title">📷 QR 스캔 후 재고 입력 화면 (미리보기)</div>
+</div>
+<div style="padding:18px 20px;">
+<div style="background:#0D0D0D;border-radius:var(--radius);padding:24px;color:white;margin-bottom:16px;">
+<div id="qrPreviewName" style="font-family:var(--font-display);font-size:22px;font-weight:800;color:var(--green-main);margin-bottom:6px;letter-spacing:-0.02em;">업체명</div>
+<div style="font-size:13px;color:#888;">QR 스캔 재고 입력</div>
+</div>
+<!-- 품목별 재고 입력 (JS로 렌더링) -->
+<div id="qrProductInputs" style="display:flex;flex-direction:column;gap:12px;margin-bottom:16px;"></div>
+<!-- 폐유 (단일) -->
+<div style="background:#FFF8F0;border-radius:var(--radius-sm);padding:18px 16px;text-align:center;border:1.5px solid #FFD8A8;margin-bottom:16px;">
+<div style="font-size:14px;color:#D4621A;margin-bottom:10px;font-weight:800;">🗑️ 폐식용유 보유</div>
+<div style="display:flex;align-items:center;justify-content:center;gap:14px;">
+<div class="tc-btn" onclick="changeQRStock('waste',-1)" style="width:46px;height:46px;border-radius:12px;font-size:24px;font-weight:800;">−</div>
+<input id="qrWasteVal" max="99" min="0" onfocus="this.select()" oninput="qrWasteVal=Math.max(0,Math.min(99,parseInt(this.value)||0));this.value=qrWasteVal;" style="font-family:var(--font-display);font-size:54px;font-weight:800;color:#D4621A;letter-spacing:-0.04em;width:90px;text-align:center;border:none;background:transparent;outline:none;-moz-appearance:textfield;" type="number" value="0"/>
+<div class="tc-btn" onclick="changeQRStock('waste',1)" style="width:46px;height:46px;border-radius:12px;font-size:24px;font-weight:800;">+</div>
+</div>
+<div style="font-size:12px;color:var(--gray);margin-top:6px;">캔 · 탭해서 직접 입력 가능</div>
+</div>
+<div style="margin-bottom:14px;padding:12px 14px;background:var(--cream);border-radius:9px;font-size:13px;color:var(--gray);">
+              ⏱️ 마지막 입력: <strong id="qrLastTime" style="color:var(--black);">—</strong>
+</div>
+<button class="btn btn-primary" id="qrSaveBtn" onclick="saveQRStock()" style="width:100%;justify-content:center;padding:16px;font-size:16px;font-weight:800;border-radius:12px;">
+              📝 재고 저장
+            </button>
+<div style="text-align:center;margin-top:10px;font-size:12px;color:var(--gray);">저장하면 지도에 즉시 반영돼요</div>
+<!-- 추가발주 신청 -->
+<div style="margin-top:20px;padding-top:18px;border-top:1px dashed var(--gray-light);">
+<div style="font-size:14px;font-weight:800;color:#185FA5;margin-bottom:12px;">📦 추가발주 신청 <span style="font-size:11px;font-weight:400;color:var(--gray);">— 자동발주 외 추가 필요 시</span></div>
+<div style="margin-bottom:12px;">
+<div style="font-size:12px;color:var(--gray);margin-bottom:6px;font-weight:700;">유종 선택</div>
+<select class="form-select" id="qrExtraProduct" style="font-size:14px;padding:12px 13px;width:100%;border-radius:10px;font-weight:700;">
+<!-- JS로 동적 채움 -->
+</select>
+</div>
+<div style="background:#EEF4FF;border-radius:12px;padding:18px 14px;margin-bottom:12px;border:1.5px solid #B3D4FC;">
+<div style="font-size:13px;color:#185FA5;font-weight:800;margin-bottom:10px;text-align:center;">📦 추가발주 수량</div>
+<div style="display:flex;align-items:center;justify-content:center;gap:14px;">
+<div class="tc-btn" onclick="changeQRExtra(-1)" style="width:46px;height:46px;border-radius:12px;font-size:24px;font-weight:800;background:#fff;color:#185FA5;border:1.5px solid #93C5FD;">−</div>
+<input id="qrExtraVal" max="99" min="1" onfocus="this.select()" oninput="(function(el){var v=Math.max(1,Math.min(99,parseInt(el.value)||1));el.value=v;updateQRExtraPriceFromInput(v);})(this)" style="font-family:var(--font-display);font-size:54px;font-weight:800;color:#185FA5;letter-spacing:-0.04em;width:90px;text-align:center;border:none;background:transparent;outline:none;-moz-appearance:textfield;" type="number" value="5"/>
+<div class="tc-btn" onclick="changeQRExtra(1)" style="width:46px;height:46px;border-radius:12px;font-size:24px;font-weight:800;background:#fff;color:#185FA5;border:1.5px solid #93C5FD;">+</div>
+</div>
+<div style="font-size:11px;color:#185FA5;text-align:center;margin-top:6px;opacity:0.8;">캔 · 탭해서 직접 입력 가능</div>
+</div>
+<!-- 추가발주 금액 미리보기 -->
+<div style="background:#EEF4FF;border-radius:9px;padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;border:1px solid #C5D8F5;">
+<div style="font-size:12px;color:#185FA5;font-weight:700;">예상 금액</div>
+<div id="qrExtraPrice" style="font-family:var(--font-display);font-size:18px;font-weight:800;color:#185FA5;">250,000원</div>
+</div>
+<button id="qrExtraBtn" onclick="submitQRExtraOrder()" style="width:100%;background:#185FA5;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:800;color:#fff;cursor:pointer;font-family:var(--font-body);">
+                📦 추가발주 신청
+              </button>
+</div>
+</div>
+</div>
+<!-- 사용 안내 -->
+<div style="background:#0D0D0D;border-radius:var(--radius);padding:18px 20px;">
+<div style="font-family:var(--font-display);font-size:13px;font-weight:800;color:var(--green-main);margin-bottom:12px;">📋 QR 재고 관리 사용법</div>
+<div style="display:flex;flex-direction:column;gap:10px;">
+<div style="display:flex;gap:10px;align-items:flex-start;">
+<div style="width:22px;height:22px;background:var(--green-main);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:12px;font-weight:800;color:#000;flex-shrink:0;">1</div>
+<div style="font-size:12px;color:#aaa;">위에서 업체 선택 후 QR 코드 생성 → 인쇄해서 주방이나 카운터에 부착</div>
+</div>
+<div style="display:flex;gap:10px;align-items:flex-start;">
+<div style="width:22px;height:22px;background:var(--green-main);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:12px;font-weight:800;color:#000;flex-shrink:0;">2</div>
+<div style="font-size:12px;color:#aaa;">업주가 폰으로 QR 스캔 → 재고 입력 화면 자동 오픈</div>
+</div>
+<div style="display:flex;gap:10px;align-items:flex-start;">
+<div style="width:22px;height:22px;background:var(--green-main);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:12px;font-weight:800;color:#000;flex-shrink:0;">3</div>
+<div style="font-size:12px;color:#aaa;">+/− 버튼으로 캔 수 조정 → 저장 버튼 클릭 (10초면 끝!)</div>
+</div>
+<div style="display:flex;gap:10px;align-items:flex-start;">
+<div style="width:22px;height:22px;background:var(--green-main);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:12px;font-weight:800;color:#000;flex-shrink:0;">4</div>
+<div style="font-size:12px;color:#aaa;">재고 2캔 이하 → 자동발주 / 폐유 1캔 이상 → 수거 알림 자동 발송</div>
+</div>
+</div>
+</div>
+</div>
+</div>

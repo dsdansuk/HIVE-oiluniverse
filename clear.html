@@ -26,7 +26,7 @@ document.getElementById('btn').onclick = async function() {
     localStorage.removeItem('hiveoil_history');
     localStorage.removeItem('hiveoil_pending_biz');
     st.textContent = '✅ 완료! 3초 후 앱으로 이동합니다...';
-    setTimeout(function(){ location.href='https://cocodss7-cell.github.io/HIVEOIL/?t='+Date.now(); },3000);
+    setTimeout(function(){ location.href='https://cocodss7-cell.github.io./?t='+Date.now(); },3000);
   } catch(e) { st.textContent = '오류: '+e.message; }
 };
 </script>

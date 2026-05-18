@@ -40,11 +40,11 @@ self.addEventListener('push', (event) => {
   const title = data.title || '🫒 식용유니버스';
   const options = {
     body: data.body || '',
-    icon: data.icon || '/HIVEOIL/icon-192.png',
-    badge: data.badge || '/HIVEOIL/icon-192.png',
+    icon: data.icon || './icon-192.png',
+    badge: data.badge || './icon-192.png',
     tag: data.tag || 'general',
     renotify: true, // 같은 tag도 다시 진동/소리
-    data: { url: data.url || '/HIVEOIL/' },
+    data: { url: data.url || './' },
     requireInteraction: false,
     vibrate: [200, 100, 200],
   };
@@ -56,7 +56,7 @@ self.addEventListener('push', (event) => {
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
   const targetUrl =
-    (event.notification.data && event.notification.data.url) || '/HIVEOIL/';
+    (event.notification.data && event.notification.data.url) || './';
 
   event.waitUntil(
     self.clients
@@ -64,7 +64,7 @@ self.addEventListener('notificationclick', (event) => {
       .then((clientList) => {
         // 이미 열린 탭이 있으면 거기로 포커스
         for (const client of clientList) {
-          if (client.url.includes('/HIVEOIL/') && 'focus' in client) {
+          if (client.url.includes('./') && 'focus' in client) {
             try {
               client.navigate(targetUrl);
             } catch (e) {}
